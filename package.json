@@ -1,4 +1,10 @@
 {
+  "name": "zipjung_web",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node src/js/main.js"
+  },
   "dependencies": {
     "bootstrap": "^5.3.8"
   }
