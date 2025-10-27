@@ -1,0 +1,31 @@
+/*    !* 커스텀 색상 및 크기 변수 정의 *!*/
+/*:root {*/
+/*    !* 메인 컬러: #bdddf4 *!*/
+/*    --main-light-blue: #bdddf4;*/
+/*    !* 앱 버튼 컬러와 유사한 진한 파랑: #2d436a *!*/
+/*    --main-dark-blue: #2d436a;*/
+/*    !* 배경색 *!*/
+/*    --soft-white: #fafafa;*/
+/*}*/
+
+/*!* 커스텀 유틸리티 클래스 *!*/
+/*.bg-main-light-blue { background-color: var(--main-light-blue) !important; }*/
+/*.bg-main-dark-blue { background-color: var(--main-dark-blue) !important; }*/
+/*.text-main-dark-blue { color: var(--main-dark-blue) !important; }*/
+/*.bg-soft-white { background-color: var(--soft-white) !important; }*/
+/*.border-main-light-blue { border-color: var(--main-light-blue) !important; }*/
+
+/*!* 둥근 모서리 (Tailwind rounded-2xl 근사치) *!*/
+/*.rounded-4 { border-radius: 1.5rem !important; }*/
+
+/*!* 입력 필드 배경색 설정 *!*/
+/*.form-control.bg-light-blue-30 {*/
+/*    background-color: rgba(189, 221, 244, 0.3) !important; !* #bdddf4의 30% 투명도 *!*/
+/*    border-width: 2px;*/
+/*}*/
+
+/*!* 메인 콘텐츠 높이 (헤더 높이 제외) *!*/
+/*.min-h-content { min-height: calc(100vh - 64px); } !* Header py-3 + shadow 높이 고려 *!*/
+
+/*!* 메인 카드 최대 너비 (Tailwind max-w-5xl 근사치) *!*/
+/*.max-w-5xl-card { max-width: 1024px; }*/
