@@ -1,6 +1,5 @@
 import { TestService } from "./services/TestService.js";
 
-
 const eventBtn = document.getElementById('submitBtn');
 
 eventBtn.addEventListener('click', async () => {
@@ -8,3 +7,4 @@ eventBtn.addEventListener('click', async () => {
     const content = document.getElementById('content').value;
     await TestService.testConnection(title, content);
 });
+
