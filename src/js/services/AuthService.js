@@ -1,4 +1,6 @@
 import {LoginApi} from "../api/LoginApi.js";
+
+import {AuthTokenStorage} from "./TokenStorage.js";
 import {ValidateTokenApi} from "../api/ValidateTokenApi.js";
 
 export class AuthService {
@@ -6,43 +8,50 @@ export class AuthService {
     static async checkToken() {
         const accessToken = AuthTokenStorage.getToken();
 
+        console.log(`[AuthService/checkToken] accessToken: ${accessToken}`);
         if (accessToken) { // token이 존재하는 경우
-            // refresh token 유효확인 + sliding session
-            await ValidateTokenApi.validateAccessToken('http://localhost:8080/validate/token/web', accessToken);
-            return true;
+            // TODO: accessToken 담아서 서버로 -> 유효한지 확인
+            try {
+                await ValidateTokenApi.validateAccessToken('http://localhost:8080/validate/web/access', accessToken);
+                AuthTokenStorage.setToken(accessToken);
+
+                const newAccessToken = AuthTokenStorage.getToken();
+                console.log(`[AuthService/checkToken] new access token: ${newAccessToken}`);
+                // JS 메모리에 저장
+                return true;
+            } catch (e) {
+                console.log('자동 로그인 실패');
+                return false;
+            }
         }
 
-        // Token이 존재하지 않는 경우
-        return false;
+        // access token이 존재하지 않는 경우
+        // refresh token이 만료되지 않은 경우 자동 로그인
+        try {
+            await ValidateTokenApi.validateRefreshToken('http://localhost:8080/validate/web/refresh');
+            AuthTokenStorage.setToken(accessToken);
+
+            const newAccessToken = AuthTokenStorage.getToken();
+            console.log(`[AuthService/checkToken] new access token: ${newAccessToken}`);
+            return true;
+        } catch (e) {
+            console.log('자동 로그인 실패!');
+            return false;
+        }
     }
 
     static async login(username, password) {
-        console.log("[AuthSerivce]");
+        console.log('[AuthSerivce]');
         const data = {username, password};
-        return await LoginApi.fetchLogin('http://localhost:8080/auth/login/web', data);
+
+        // api 타고 받아온 access token storage에 저장
+        const accessToken = await LoginApi.fetchLogin('http://localhost:8080/auth/login/web', data);
+        AuthTokenStorage.setToken(accessToken);
+
+        const printToken = AuthTokenStorage.getToken();
+        console.log(printToken);
+
     }
 }
 
-// 백엔드에서 DTO와 같은 역할을 수행
-const TokenStorage = (() => {
-    let accessToken = null;
 
-    function setToken(token) {
-        accessToken = token;
-        console.log("Access Token이 안전하게 메모리에 저장됨.");
-    }
-
-    function getToken() {
-        return accessToken;
-    }
-
-    function clearToken() {
-        accessToken = null;
-        console.log("Access Token이 메모리에서 제거됨.");
-    }
-
-    return { setToken, getToken, clearToken };
-})();
-
-// 아래 코드 있어야 다른 클래스에서 사용 가능
-export const AuthTokenStorage = TokenStorage;

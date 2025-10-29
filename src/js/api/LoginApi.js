@@ -1,8 +1,7 @@
 import {AuthException} from "../../utils/AuthException.js";
-import {AuthTokenStorage} from "../services/AuthService.js";
 
 export class LoginApi {
-    static async fetchLogin(url, data) { // TODO: 여기 이름은 postJson 이런 식
+    static async fetchLogin(url, data) {
         console.log("[fetchLogin] start");
         const response = await fetch(url, {
             method: 'POST',
@@ -17,12 +16,12 @@ export class LoginApi {
 
             // json으로 받은 access token은 JS 메모리에 저장
             const accessToken = token.accessToken;
-            AuthTokenStorage.setToken(accessToken);
-            console.log("[LoginApi] Access Token 메모리에 저장!");
-
-            // TODO: return 어떤 걸 해야할 지
-            // return accessToken; // 리다이렉트시 필요함 -> 변수에 담으면 사라지기 때문
-            return;
+            // AuthTokenStorage.setToken(accessToken);
+            //
+            // const saveToken = AuthTokenStorage.getToken(accessToken);
+            // console.log(`[LoginApi] accessTokne: ${saveToken}`);
+            // console.log("[LoginApi] Access Token 메모리에 저장!");
+            return accessToken; // 리다이렉트시 필요함 -> 변수에 담으면 사라지기 때문
         }
 
         // 로그인 실패

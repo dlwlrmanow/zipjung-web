@@ -1,5 +1,13 @@
 import {AuthService} from "../services/AuthService.js";
 
+(async () => {
+    if(await AuthService.checkToken()) {
+        // 토큰 유효
+        // 바로 main페이지로 리다이렉트
+        window.location.href = '../templates/timer/main-timer.html';
+    }
+})();
+
 function showErrModal(title, message) {
     const modalElement = document.getElementById('errorModal');
     if(!modalElement) {
@@ -30,28 +38,12 @@ async function loadExternalHtml(url) {
 
 }
 
-
 document.addEventListener('DOMContentLoaded', async () => {
     // 모달 먼저 DOM에 로드
     await loadExternalHtml('../components/err_modal.html');
 
     const loginForm = document.getElementById('loginForm');
     const join = document.getElementById('join');
-
-    try {
-        const validToken = await AuthService.checkToken();
-
-        if(validToken) {
-            // 토큰 유효
-            // 바로 main페이지로 리다이렉트
-            window.location.href = '../templates/timer/main-timer.html';
-        }
-    } catch (e) {
-        console.error(e.message, e.statusCode);
-        showErrModal('자동 로그인 실패', e || '자동 로그인에 실패하였습니다. 다시 시도해주세요');
-    }
-
-
 
     if(loginForm) {
         loginForm.addEventListener('submit', async (e) => { // type click -> submit
@@ -64,6 +56,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 console.log('api 타기 전!')
                 await AuthService.login(username, password);
                 console.log('api 탐!');
+
+                debugger;
 
                 // 로그인 성공시 메인 타이머 페이지로
                 window.location.href = '../templates/timer/main-timer.html';
