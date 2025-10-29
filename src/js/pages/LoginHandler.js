@@ -38,6 +38,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     const loginForm = document.getElementById('loginForm');
     const join = document.getElementById('join');
 
+    try {
+        const validToken = await AuthService.checkToken();
+
+        if(validToken) {
+            // 토큰 유효
+            // 바로 main페이지로 리다이렉트
+            window.location.href = '../templates/timer/main-timer.html';
+        }
+    } catch (e) {
+        console.error(e.message, e.statusCode);
+        showErrModal('자동 로그인 실패', e || '자동 로그인에 실패하였습니다. 다시 시도해주세요');
+    }
+
+
+
     if(loginForm) {
         loginForm.addEventListener('submit', async (e) => { // type click -> submit
             e.preventDefault();

@@ -1,6 +1,5 @@
 import {AuthException} from "../../utils/AuthException.js";
-
-window.accessToken = null;
+import {AuthTokenStorage} from "../services/AuthService.js";
 
 export class LoginApi {
     static async fetchLogin(url, data) { // TODO: 여기 이름은 postJson 이런 식
@@ -18,7 +17,7 @@ export class LoginApi {
 
             // json으로 받은 access token은 JS 메모리에 저장
             const accessToken = token.accessToken;
-            window.accessToken = accessToken;
+            AuthTokenStorage.setToken(accessToken);
             console.log("[LoginApi] Access Token 메모리에 저장!");
 
             // TODO: return 어떤 걸 해야할 지
