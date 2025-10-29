@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadExternalHtml('../components/err_modal.html');
 
     const loginForm = document.getElementById('loginForm');
+    const join = document.getElementById('join');
 
     if(loginForm) {
         loginForm.addEventListener('submit', async (e) => { // type click -> submit
@@ -51,12 +52,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 // 로그인 성공시 메인 타이머 페이지로
                 window.location.href = '../templates/timer/main-timer.html';
-                // showErrModal('로그인에 성공하였습니다.');
             } catch (e) {
                 // document.getElementById().textContent = e.message; // 사용자에게 보여주는 방식은 다르게!
                 console.error(e.message, e.statusCode);
                 showErrModal('로그인 실패', e || '로그인에 실패하였습니다. 다시 시도해주세요');
             }
+        })
+    }
+
+    if (join) {
+        join.addEventListener('click', () => {
+            window.location.href = '../templates/user/'
         })
     }
 

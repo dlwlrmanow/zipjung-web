@@ -1,0 +1,79 @@
+:root {
+    /* 메인 컬러: #bdddf4 */
+    --main-light-blue: #bdddf4;
+    /* 앱 버튼 컬러와 유사한 진한 파랑: #2d436a */
+    --main-dark-blue: #2d436a;
+    /* 배경색 */
+    --soft-white: #fafafa;
+    /* 게시물 카드 배경색 (앱 화면의 파란색 카드) */
+    --soft-blue: #E6F3FF;
+    /* Bootstrap Secondary를 참고 */
+    --bs-secondary: #6c757d;
+}
+
+/* ------------------------------------ */
+/* 커스텀 유틸리티 클래스 */
+/* ------------------------------------ */
+.bg-main-light-blue { background-color: var(--main-light-blue) !important; }
+.bg-main-dark-blue { background-color: var(--main-dark-blue) !important; }
+.text-main-dark-blue { color: var(--main-dark-blue) !important; }
+.bg-soft-white { background-color: var(--soft-white) !important; }
+.bg-soft-blue { background-color: var(--soft-blue) !important; }
+.text-main-black { color: #212529 !important; }
+.border-main-light-blue { border-color: var(--main-light-blue) !important; }
+
+/* 둥근 모서리 */
+.rounded-4 { border-radius: 1.5rem !important; }
+
+/* 메인 카드 최대 너비 */
+.max-w-5xl-card { max-width: 1024px; }
+
+/* ------------------------------------ */
+/* GNB (Global Navigation Bar) 스타일링 - 밑줄 강조 */
+/* ------------------------------------ */
+
+.nav-pills .nav-link {
+    transition: all 0.2s ease;
+    border-radius: 0;
+    border-bottom: 3px solid transparent;
+    font-weight: 500;
+    color: var(--bs-secondary);
+}
+
+/* 활성화된 링크 (선택된 페이지)에 두꺼운 하늘색 밑줄 적용 */
+.nav-pills .nav-link.nav-link-active-underline {
+    background-color: transparent !important;
+    border-bottom: 3px solid var(--main-light-blue);
+    color: var(--main-dark-blue) !important;
+    font-weight: 700 !important;
+}
+
+/* 마우스 오버 시 효과 */
+.nav-pills .nav-link:hover {
+    background-color: transparent;
+    color: var(--main-dark-blue);
+}
+
+/* ------------------------------------ */
+/* 타이머 전용 스타일 */
+/* ------------------------------------ */
+
+#timerDisplay {
+    font-size: 3.5rem; /* 타이머 숫자를 크게 */
+    font-weight: 700;
+    font-family: monospace; /* 숫자는 모노스페이스 폰트가 보기 좋음 */
+    color: var(--main-dark-blue);
+}
+
+#totalTimeDisplay {
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: monospace;
+}
+
+/* 작은 화면에서 타이머 영역을 전체 너비로 확장 */
+@media (max-width: 767px) {
+    #timerDisplay {
+        font-size: 2.8rem;
+    }
+}

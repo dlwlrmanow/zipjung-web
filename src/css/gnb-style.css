@@ -1,0 +1,28 @@
+/* GNB 링크의 기본 스타일 설정 */
+.nav-pills .nav-link {
+    transition: all 0.2s ease;
+    border-radius: 0; /* 알약 모양의 둥근 모서리 제거 */
+    border-bottom: 3px solid transparent; /* 기본 밑줄을 투명하게 설정 */
+    font-weight: 500; /* 기본 두께 설정 */
+    color: var(--bs-secondary); /* 비활성 링크 텍스트 색상 */
+}
+
+/* 활성화된 링크 (선택된 페이지)에 두꺼운 하늘색 밑줄 적용 */
+.nav-pills .nav-link.nav-link-active-underline {
+    /* 배경색 제거 (Bootstrap nav-pills active의 배경색 덮어쓰기) */
+    background-color: transparent !important;
+
+    /* 두꺼운 밑줄 추가 */
+    border-bottom: 3px solid var(--main-light-blue);
+
+    /* 텍스트 색상 강조 */
+    color: var(--main-dark-blue) !important;
+    font-weight: 700 !important; /* 글씨를 더 굵게 */
+}
+
+/* 마우스 오버 시 효과 (클릭할 때만 색이 바뀌도록 배경색 제거) */
+.nav-pills .nav-link:hover {
+    background-color: transparent;
+    /* hover 시 텍스트 색상을 살짝 강조 */
+    color: var(--main-dark-blue);
+}

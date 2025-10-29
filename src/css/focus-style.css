@@ -1,0 +1,17 @@
+/* 게시물 카드의 배경색 (앱 화면의 파란색 카드) */
+.bg-soft-blue {
+    background-color: #E6F3FF !important; /* 연한 파란색 계열 예시 */
+}
+
+/* 제목 등 주요 텍스트 색상 */
+.card-log-title {
+    color: #000000 !important; /* 짙은 청록색 계열 예시 */
+}
+.card-log-date {
+    color: gray;
+}
+
+/* 컨테이너 최대 너비 설정 (화면이 너무 넓어지는 것을 방지) */
+.max-w-5xl-card {
+    max-width: 900px;
+}
