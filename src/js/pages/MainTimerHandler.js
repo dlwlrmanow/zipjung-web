@@ -1,5 +1,8 @@
 import {AuthService} from "../services/AuthService.js";
 
+(async () => {
+    // TODO: 리스트 불러오기
+})();
 document.addEventListener('DOMContentLoaded', async () => {
     const logoutBtn = document.getElementById('logoutBtn');
 
