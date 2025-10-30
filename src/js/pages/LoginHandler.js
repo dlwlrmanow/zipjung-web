@@ -6,7 +6,8 @@ import {AuthService} from "../services/AuthService.js";
         // 토큰 유효
         console.log("[LoginHandler] validateToken success");
         // replace는 뒤로가기 방지
-        window.location.replace('../../templates/timer/main-timer.html');
+        window.location.replace('http://localhost:63342/zipjung_web/src/templates/timer/main-timer.html');
+
     }
 })();
 
@@ -59,10 +60,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 await AuthService.login(username, password);
                 console.log('api 탐!');
 
-                debugger;
-
                 // 로그인 성공시 메인 타이머 페이지로
-                window.location.href = '../../templates/timer/main-timer.html';
+                window.location.href = '../templates/timer/main-timer.html';
             } catch (e) {
                 // document.getElementById().textContent = e.message; // 사용자에게 보여주는 방식은 다르게!
                 console.error(e.message, e.statusCode);
