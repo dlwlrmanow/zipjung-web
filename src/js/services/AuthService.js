@@ -1,6 +1,7 @@
 import {AuthTokenStorage} from "./TokenStorage.js"; // 자동로그인때문에 모듈 순서 주의
 import {ValidateTokenApi} from "../api/ValidateTokenApi.js";
 import {LoginApi} from "../api/LoginApi.js";
+import {LogoutApi} from "../api/LogoutApi.js";
 
 export class AuthService {
     // 자동 로그인 위해서 토큰 존재하는 지 확인
@@ -36,7 +37,6 @@ export class AuthService {
     }
 
     static async login(username, password) {
-        console.log('[AuthSerivce]');
         const data = {username, password};
 
         // api 타고 받아온 access token storage에 저장
@@ -46,6 +46,15 @@ export class AuthService {
         const printToken = AuthTokenStorage.getToken();
         console.log(printToken);
 
+    }
+
+    static async logout() {
+        const accessToken = AuthTokenStorage.getToken();
+        await LogoutApi.invalidateToken('http://localhost:8080/auth/logout/web', accessToken);
+
+        // JS메모리에 담긴 token 삭제
+        AuthTokenStorage.clearToken();
+        console.log('[AuthService] token remove');
     }
 }
 

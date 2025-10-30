@@ -8,7 +8,6 @@ export class ValidateTokenApi {
             method: 'POST',
             // access token은 header에
             headers: {'Content-Type': 'application/json; charset=UTF-8', 'Authorization': `Bearer ${data}`,},
-            // body: JSON.stringify(data),
             credentials: 'include'
         });
 
