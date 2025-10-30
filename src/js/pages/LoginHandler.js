@@ -1,10 +1,12 @@
 import {AuthService} from "../services/AuthService.js";
 
 (async () => {
-    if(await AuthService.checkToken()) {
+    const validateToken = await AuthService.checkToken();
+    if(validateToken) {
         // 토큰 유효
-        // 바로 main페이지로 리다이렉트
-        window.location.href = '../templates/timer/main-timer.html';
+        console.log("[LoginHandler] validateToken success");
+        // replace는 뒤로가기 방지
+        window.location.replace('../../templates/timer/main-timer.html');
     }
 })();
 
@@ -60,7 +62,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 debugger;
 
                 // 로그인 성공시 메인 타이머 페이지로
-                window.location.href = '../templates/timer/main-timer.html';
+                window.location.href = '../../templates/timer/main-timer.html';
             } catch (e) {
                 // document.getElementById().textContent = e.message; // 사용자에게 보여주는 방식은 다르게!
                 console.error(e.message, e.statusCode);

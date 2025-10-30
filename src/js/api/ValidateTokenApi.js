@@ -1,6 +1,5 @@
 
 import {AuthException} from "../../utils/AuthException.js";
-import {AuthTokenStorage} from "../services/TokenStorage.js";
 
 export class ValidateTokenApi {
     static async validateAccessToken(url, data) {
