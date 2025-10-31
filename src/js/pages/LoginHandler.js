@@ -1,6 +1,9 @@
 import {AuthService} from "../services/AuthService.js";
 
 (async () => {
+    // 이거 없으며 throttling 발생
+    if (window.location.pathname.includes('main-timer.html')) return;
+
     const validateToken = await AuthService.checkToken();
     if(validateToken) {
         // 토큰 유효
@@ -34,11 +37,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         })
     }
-
-    if (join) {
-        join.addEventListener('click', () => {
-            window.location.href = '../templates/user/'
-        })
-    }
+    //
+    // if (join) {
+    //     join.addEventListener('click', () => {
+    //         window.location.href = '../templates/user/'
+    //     })
+    // }
 
 })
