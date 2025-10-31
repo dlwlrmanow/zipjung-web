@@ -28,31 +28,7 @@
 /* 메인 카드 최대 너비 */
 .max-w-5xl-card { max-width: 1024px; }
 
-/* ------------------------------------ */
-/* GNB (Global Navigation Bar) 스타일링 - 밑줄 강조 */
-/* ------------------------------------ */
 
-.nav-pills .nav-link {
-    transition: all 0.2s ease;
-    border-radius: 0;
-    border-bottom: 3px solid transparent;
-    font-weight: 500;
-    color: var(--bs-secondary);
-}
-
-/* 활성화된 링크 (선택된 페이지)에 두꺼운 하늘색 밑줄 적용 */
-.nav-pills .nav-link.nav-link-active-underline {
-    background-color: transparent !important;
-    border-bottom: 3px solid var(--main-light-blue);
-    color: var(--main-dark-blue) !important;
-    font-weight: 700 !important;
-}
-
-/* 마우스 오버 시 효과 */
-.nav-pills .nav-link:hover {
-    background-color: transparent;
-    color: var(--main-dark-blue);
-}
 
 /* ------------------------------------ */
 /* 타이머 전용 스타일 */

@@ -1,0 +1,27 @@
+:root {
+    --color-soft-white: #f7f7fa; /* App background */
+    --color-main-light-blue: #e8f4ff; /* Header/active tab background */
+    --color-main-dark-blue: #0056b3; /* Primary accent color */
+    --max-width-5xl-card: 1200px;
+}
+.bg-soft-white { background-color: var(--color-soft-white) !important; }
+.bg-main-light-blue { background-color: var(--color-main-light-blue) !important; }
+.text-main-dark-blue { color: var(--color-main-dark-blue) !important; }
+.btn-main-dark-blue {
+    background-color: var(--color-main-dark-blue);
+    color: white;
+    border-color: var(--color-main-dark-blue);
+}
+.btn-main-dark-blue:hover {
+    background-color: #004494;
+    border-color: #004494;
+}
+.max-w-5xl-card { max-width: var(--max-width-5xl-card) !important; }
+
+/* Specific Styles for the UI */
+.list-group-item {
+    transition: background-color 0.2s;
+}
+.list-group-item:hover {
+    background-color: var(--color-main-light-blue);
+}
