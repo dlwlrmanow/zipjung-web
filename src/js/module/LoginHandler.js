@@ -1,18 +1,18 @@
 import {AuthService} from "../services/AuthService.js";
 
-(async () => {
-    // 이거 없으며 throttling 발생
-    if (window.location.pathname.includes('main-timer.html')) return;
-
-    const validateToken = await AuthService.checkToken();
-    if(validateToken) {
-        // 토큰 유효
-        console.log("[LoginHandler] validateToken success");
-        // replace는 뒤로가기 방지
-        window.location.replace('http://localhost:63342/zipjung_web/src/templates/timer/main-timer.html'); // TODO: 배포시에는 경로 수정 필요
-
-    }
-})();
+// (async () => {
+//     // 이거 없으며 throttling 발생
+//     if (window.location.pathname.includes('main-timer.html')) return;
+//
+//     const validateToken = await AuthService.checkToken();
+//     if(validateToken) {
+//         // 토큰 유효
+//         console.log("[LoginHandler] validateToken success");
+//         // replace는 뒤로가기 방지
+//         window.location.replace('http://localhost:63342/zipjung_web/src/templates/timer/main-timer.html'); // TODO: 배포시에는 경로 수정 필요
+//
+//     }
+// })();
 
 document.addEventListener('DOMContentLoaded', async () => {
     const loginForm = document.getElementById('loginForm');

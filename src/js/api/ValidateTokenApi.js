@@ -7,7 +7,7 @@ export class ValidateTokenApi {
         const response = await fetch(url, {
             method: 'POST',
             // access token은 header에
-            headers: {'Content-Type': 'application/json; charset=UTF-8', 'Authorization': `Bearer ${data}`,},
+            headers: {'Content-Type': 'application/json; charset=UTF-8', 'Authorization': `Bearer ${data}`},
             credentials: 'include'
         });
 
@@ -29,9 +29,7 @@ export class ValidateTokenApi {
         console.log("[validateRefreshToken] fetch");
         const response = await fetch(url, {
             method: 'POST',
-            // access token은 header에
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
-            // body: JSON.stringify(data),
             credentials: 'include'
         });
 

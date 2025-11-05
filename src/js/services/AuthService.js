@@ -50,6 +50,7 @@ export class AuthService {
 
     static async logout() {
         const accessToken = AuthTokenStorage.getToken();
+
         if(accessToken) {
             await LogoutApi.invalidateToken('http://localhost:8080/auth/logout/web', accessToken);
 
@@ -58,6 +59,7 @@ export class AuthService {
             console.log('[AuthService] token remove');
             return;
         }
+        // TODO: refresh reissue후 access token 안넘겨주는 거 같음
         console.log('[AuthService] token remove fail! not exist!');
     }
 }
