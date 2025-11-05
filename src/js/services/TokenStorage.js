@@ -1,19 +1,22 @@
-// 백엔드에서 DTO와 같은 역할을 수행
+const ACCESS_TOKEN_KEY = 'accessToken';
+
 const TokenStorage = (() => {
-    let accessToken = null;
 
     function setToken(token) {
-        accessToken = token;
-        console.log("Access Token이 안전하게 메모리에 저장됨.");
+        // JS 메모리 변수 대신 sessionStorage에 직접 저장
+        sessionStorage.setItem(ACCESS_TOKEN_KEY, token);
+        console.log("Access Token이 sessionStorage에 저장됨.");
     }
 
     function getToken() {
-        return accessToken;
+        // sessionStorage에서 키를 이용해 토큰을 읽어옴
+        return sessionStorage.getItem(ACCESS_TOKEN_KEY);
     }
 
     function clearToken() {
-        accessToken = null;
-        console.log("Access Token이 메모리에서 제거됨.");
+        // sessionStorage에서 토큰을 제거함
+        sessionStorage.removeItem(ACCESS_TOKEN_KEY);
+        console.log("Access Token이 sessionStorage에서 제거됨.");
     }
 
     return { setToken, getToken, clearToken };

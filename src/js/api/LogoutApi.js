@@ -10,11 +10,9 @@ export class LogoutApi {
         });
 
         if (response.ok) {
-            console.log("logout 성공");
             return;
         }
 
-        console.error("[invalidateToken] invalidate token fail");
         throw new AuthException('로그아웃 실패: ', response.status);
     }
 }

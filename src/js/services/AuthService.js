@@ -2,6 +2,7 @@ import {AuthTokenStorage} from "./TokenStorage.js"; // 자동로그인때문에 
 import {ValidateTokenApi} from "../api/ValidateTokenApi.js";
 import {LoginApi} from "../api/LoginApi.js";
 import {LogoutApi} from "../api/LogoutApi.js";
+import {AuthException} from "../../utils/AuthException.js";
 
 export class AuthService {
     // 자동 로그인 위해서 토큰 존재하는 지 확인
@@ -42,25 +43,20 @@ export class AuthService {
         // api 타고 받아온 access token storage에 저장
         const accessToken = await LoginApi.fetchLogin('http://localhost:8080/auth/login/web', data);
         AuthTokenStorage.setToken(accessToken);
-
-        const printToken = AuthTokenStorage.getToken();
-        console.log(printToken);
-
     }
 
     static async logout() {
         const accessToken = AuthTokenStorage.getToken();
 
-        if(accessToken) {
-            await LogoutApi.invalidateToken('http://localhost:8080/auth/logout/web', accessToken);
-
-            // JS메모리에 담긴 token 삭제
-            AuthTokenStorage.clearToken();
-            console.log('[AuthService] token remove');
-            return;
+        if(accessToken == null) {
+            throw new AuthException('[AuthService] token remove fail! not exist!');
         }
-        // TODO: refresh reissue후 access token 안넘겨주는 거 같음
-        console.log('[AuthService] token remove fail! not exist!');
+
+        await LogoutApi.invalidateToken('http://localhost:8080/auth/logout/web', accessToken);
+
+        // session에 담긴 token 삭제
+        AuthTokenStorage.clearToken();
+        console.log('[AuthService] token remove');
     }
 }
 
