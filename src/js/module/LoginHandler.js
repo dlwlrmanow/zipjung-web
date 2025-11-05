@@ -1,6 +1,7 @@
 import {AuthService} from "../services/AuthService.js";
 
 // (async () => {
+//     //자동 로그인
 //     // 이거 없으며 throttling 발생
 //     if (window.location.pathname.includes('main-timer.html')) return;
 //
