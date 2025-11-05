@@ -1,5 +1,4 @@
 import {AuthTokenStorage} from "./TokenStorage.js"; // 자동로그인때문에 모듈 순서 주의
-import {ValidateTokenApi} from "../api/ValidateTokenApi.js";
 import {LoginApi} from "../api/LoginApi.js";
 import {LogoutApi} from "../api/LogoutApi.js";
 import {AuthException} from "../../utils/AuthException.js";
