@@ -50,11 +50,15 @@ export class AuthService {
 
     static async logout() {
         const accessToken = AuthTokenStorage.getToken();
-        await LogoutApi.invalidateToken('http://localhost:8080/auth/logout/web', accessToken);
+        if(accessToken) {
+            await LogoutApi.invalidateToken('http://localhost:8080/auth/logout/web', accessToken);
 
-        // JS메모리에 담긴 token 삭제
-        AuthTokenStorage.clearToken();
-        console.log('[AuthService] token remove');
+            // JS메모리에 담긴 token 삭제
+            AuthTokenStorage.clearToken();
+            console.log('[AuthService] token remove');
+            return;
+        }
+        console.log('[AuthService] token remove fail! not exist!');
     }
 }
 

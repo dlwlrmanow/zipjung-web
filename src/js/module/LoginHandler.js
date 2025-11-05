@@ -37,11 +37,5 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         })
     }
-    //
-    // if (join) {
-    //     join.addEventListener('click', () => {
-    //         window.location.href = '../templates/user/'
-    //     })
-    // }
 
 })
