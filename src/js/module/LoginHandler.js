@@ -15,6 +15,7 @@ import {AuthService} from "../services/AuthService.js";
 //     }
 // })();
 
+// TODO: SSE 구독 연결하기
 document.addEventListener('DOMContentLoaded', async () => {
     const loginForm = document.getElementById('loginForm');
     const join = document.getElementById('join');

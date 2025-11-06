@@ -30,13 +30,9 @@ if (logoutBtn) {
 }
 
 // 임시 Todo ID 카운터 (실제로는 서버 DB에서 ID를 부여받아야 함)
-let todoIdCounter = 1;
+// let todoIdCounter = 1;
 
-/**
- * 새로운 할 일 항목을 생성하여 DOM에 추가하는 함수
- * @param {string} text - 할 일 내용
- * @param {number} id - 할 일 ID
- */
+
 function createTodoItem(text, id) {
     const listItem = document.createElement('li');
     // Bootstrap list-group-item 클래스 및 스타일 적용
@@ -76,13 +72,29 @@ function createTodoItem(text, id) {
 /**
  * 할 일을 삭제하는 이벤트 핸들러 (실제로는 서버 API 호출 필요)
  */
-function deleteTodoItem(event) {
+async function deleteTodoItem(event) {
     const btn = event.currentTarget;
     const todoId = btn.dataset.todoId;
     const item = document.getElementById(`todo-item-${todoId}`);
 
-    // 🚨 실제로는 서버에 삭제 요청 API를 호출해야 함
-    console.log(`[TodoHandler] Todo ID ${todoId} 삭제 요청 (API 호출 필요)`);
+    try {
+        await TodoService.deleteTodoById(item);
+
+        if (item) {
+            item.remove();
+
+            // 목록이 비었는지 확인하여 emptyMessage 표시
+            if (todoListContainer.children.length === 0 ||
+                (todoListContainer.children.length === 1 && todoListContainer.children[0].id === 'loadingMessage')) {
+                if (emptyMessage) {
+                    emptyMessage.classList.remove('d-none');
+                }
+            }
+        }
+    } catch (e) {
+        console.error(e);
+        alert('삭제에 실패하였습니다. 잠시후 다시 시도해주세요');
+    }
 
     if (item) {
         item.remove();
