@@ -12,7 +12,7 @@ export class NotificationHandler {
 
     constructor() {
         if (!this.toastContainer) {
-            console.error("Toast container element not found. Please ensure '.toast-container' exists in the DOM.");
+            console.error("Toast container element not found.");
         }
         // DOM이 로드된 후 init 메서드를 호출하여 SSE 연결 시작
         document.addEventListener('DOMContentLoaded', this.init.bind(this));
@@ -59,9 +59,15 @@ export class NotificationHandler {
     }
 
     async init() {
-        await NotificationService.subscribeSse(this.handleReceivedNotification);
+        try {
+            // sse token 재발급
+            await NotificationService.reissueAccessTokenForSse();
+
+            // sse subscribe
+            await NotificationService.subscribeSse(this.handleReceivedNotification);
+        } catch (e) {
+            console.error('[MainTimerHandler] sse subscribe 중 문제 발생');
+            window.location.replace('../main.html');
+        }
     }
 }
-
-// // 클래스 인스턴스 생성 및 실행
-// new NotificationHandler();
