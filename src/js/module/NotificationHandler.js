@@ -63,5 +63,5 @@ export class NotificationHandler {
     }
 }
 
-// 클래스 인스턴스 생성 및 실행
-new NotificationHandler();
+// // 클래스 인스턴스 생성 및 실행
+// new NotificationHandler();

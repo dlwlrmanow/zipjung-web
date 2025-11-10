@@ -2,8 +2,6 @@ import {AuthTokenStorage} from "./TokenStorage.js"; // 자동로그인때문에 
 import {LoginApi} from "../api/LoginApi.js";
 import {LogoutApi} from "../api/LogoutApi.js";
 import {AuthException} from "../../utils/AuthException.js";
-import {NotificationHandler} from "../module/NotificationHandler.js";
-import {NotificationService} from "./NotificationService.js";
 
 export class AuthService {
     static async login(username, password) {

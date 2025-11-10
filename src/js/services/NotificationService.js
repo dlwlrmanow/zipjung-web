@@ -1,6 +1,5 @@
 import {FetchSseTokenApi} from "../api/FetchSseTokenApi.js";
 import {AuthTokenStorage} from "./TokenStorage.js";
-import {NotificationHandler} from "../module/NotificationHandler.js";
 
 export class NotificationService {
     static SSE_BASE_URL = 'http://localhost:8080/notification/subscribe'; // 상수는 대문자로!

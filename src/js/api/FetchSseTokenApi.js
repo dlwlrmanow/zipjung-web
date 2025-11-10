@@ -9,6 +9,7 @@ export class FetchSseTokenApi {
         });
 
         if (response.ok) {
+            // JWT Token 형태로 받은 거에서 access Token만 꺼냄
             const token = await response.json();
             return token.accessToken;
         }

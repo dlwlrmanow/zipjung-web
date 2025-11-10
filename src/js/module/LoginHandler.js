@@ -1,5 +1,9 @@
 import {AuthService} from "../services/AuthService.js";
 import {NotificationService} from "../services/NotificationService.js";
+import {NotificationHandler} from "./NotificationHandler.js";
+
+const notificationHandlerInstance = new NotificationHandler();
+// notificationHandler는 단 한번만 호출되어야함 notification의 UI적인 내용만 다룸
 
 // TODO: SSE 구독 연결하기
 document.addEventListener('DOMContentLoaded', async () => {
@@ -18,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 await NotificationService.reissueAccessTokenForSse();
 
                 // sse 구독
-
+                await NotificationService.subscribeSse(notificationHandlerInstance.handleReceivedNotification());
 
                 // 로그인 성공시 메인 타이머 페이지로 이동
                 window.location.href = '../templates/timer/main-timer.html';
