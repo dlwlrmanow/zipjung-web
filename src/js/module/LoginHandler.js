@@ -16,8 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 await AuthService.login(username, password);
 
                 // 로그인 성공시 메인 타이머 페이지로 이동
-                // TODO: replace로 수정
-                window.location.href = '../templates/timer/main-timer.html';
+                window.location.replace('../templates/timer/main-timer.html');
             } catch (e) {
                 console.error(e.message, e.statusCode);
                 alert('로그인 실패. 다시 시도해주세요.');
