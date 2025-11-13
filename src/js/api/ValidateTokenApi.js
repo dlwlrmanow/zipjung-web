@@ -1,5 +1,5 @@
 
-import {AuthException} from "../../utils/AuthException.js";
+import {ExpiredTokenException} from "../../utils/ExpiredTokenException.js";
 
 export class ValidateTokenApi {
     static async validateAccessToken(url, data) {
@@ -22,7 +22,7 @@ export class ValidateTokenApi {
         }
         // refresh token 만료 혹은 서버 오류
         console.log('[validateAccessToken] token 만료 혹은 서버 오류: ', response.status);
-        throw new AuthException('자동 로그인 실패: ', response.status);
+        throw new ExpiredTokenException('자동 로그인 실패: ', response.status);
     }
 
     static async validateRefreshToken(url) {
@@ -44,6 +44,6 @@ export class ValidateTokenApi {
         }
         // refresh token 만료 혹은 서버 오류
         console.log('[validateRefreshToken] token 만료 혹은 서버 오류: ', response.status);
-        throw new AuthException('자동 로그인 실패: ', response.status);
+        throw new ExpiredTokenException('자동 로그인 실패: ', response.status);
     }
 }

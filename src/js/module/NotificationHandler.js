@@ -16,10 +16,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.log('subscribe 완료');
     }
 
-    eventSource.addEventListener('connect', (event) => {
-        console.log('연결 확인 메시지 수신:', event.data);
-        // 여기서는 JSON 파싱이 필요 없을 수 있음 (서버에서 "connected!" 같은 단순 문자열을 보냈다면)
-    });
+    // eventSource.addEventListener('connect', (event) => {
+    //     console.log('연결 확인 메시지 수신:', event.data);
+    //     // 여기서는 JSON 파싱이 필요 없을 수 있음 (서버에서 "connected!" 같은 단순 문자열을 보냈다면)
+    // });
 
     // eventSource.onmessage = ('notification', (event) => {
     //     console.log('SSE 메시지 수신: ', event.data);

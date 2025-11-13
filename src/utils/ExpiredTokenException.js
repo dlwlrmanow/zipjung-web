@@ -1,8 +1,8 @@
-export class AuthException extends Error {
+export class ExpiredTokenException extends Error {
     constructor(message, statusCode) {
         super(message);
 
-        this.name = 'REQUIRED_LOGIN';
+        this.name = 'TOKEN_EXPIRED';
 
         this.statusCode = statusCode;
     }

@@ -1,4 +1,4 @@
-import {AuthException} from "../../utils/AuthException.js";
+import {ExpiredTokenException} from "../../utils/ExpiredTokenException.js";
 
 export class FetchSseTokenApi {
     static async reissueAccessToken(url) {
@@ -15,6 +15,6 @@ export class FetchSseTokenApi {
             return token.accessToken;
         }
 
-        throw new AuthException('new AT reissue fail: ', response.status);
+        throw new ExpiredTokenException('new AT reissue fail: ', response.status);
     }
 }

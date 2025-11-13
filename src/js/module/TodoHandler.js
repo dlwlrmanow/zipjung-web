@@ -7,6 +7,7 @@ import {TodoService} from "../services/TodoService.js";
 })();
 
 const logoutBtn = document.getElementById('logoutBtn');
+const mainTimer = document.getElementById('mainTimerBtn');
 const todoInput = document.getElementById('todoInput');
 const addTodoBtn = document.getElementById('addTodoBtn');
 const todoListContainer = document.getElementById('todoListContainer');
@@ -26,6 +27,14 @@ if (logoutBtn) {
             console.error(e);
             alert('로그아웃 실패');
         }
+    })
+}
+
+if(mainTimer) {
+    mainTimer.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        window.location.href = '../timer/main-timer.html';
     })
 }
 
@@ -117,7 +126,7 @@ function toggleTodoComplete(event) {
     const todoId = checkbox.dataset.todoId;
     const itemText = checkbox.closest('.list-group-item').querySelector('.todo-text');
 
-    // 🚨 실제로는 서버에 완료 상태 업데이트 API를 호출해야 함
+    // 실제로는 서버에 완료 상태 업데이트 API를 호출해야 함
     console.log(`[TodoHandler] Todo ID ${todoId} 완료 상태 변경: ${checkbox.checked ? '완료' : '미완료'} (API 호출 필요)`);
 
     if (checkbox.checked) {
@@ -138,7 +147,7 @@ async function handleAddTodo() {
             const newTodo = await TodoService.saveNewTodo(text);
 
             // 2. 임시로 클라이언트에서 항목 생성 및 추가
-            createTodoItem(text, todoIdCounter++);
+            // createTodoItem(text, todoIdCounter++);
 
             // 3. 입력 필드 초기화
             todoInput.value = '';

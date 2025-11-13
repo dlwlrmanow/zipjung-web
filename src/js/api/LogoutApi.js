@@ -1,4 +1,4 @@
-import {AuthException} from "../../utils/AuthException.js";
+import {ExpiredTokenException} from "../../utils/ExpiredTokenException.js";
 
 export class LogoutApi {
     static async invalidateToken(url, data) {
@@ -13,6 +13,6 @@ export class LogoutApi {
             return;
         }
 
-        throw new AuthException('로그아웃 실패: ', response.status);
+        throw new ExpiredTokenException('로그아웃 실패: ', response.status);
     }
 }

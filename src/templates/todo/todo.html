@@ -29,13 +29,13 @@
     <ul class="nav nav-pills nav-fill py-2">
       <!-- nav-link active 클래스를 사용하여 현재 페이지 강조 -->
       <li class="nav-item">
-        <a class="nav-link active fw-bold bg-main-light-blue text-main-dark-blue" aria-current="page" href="#">
+        <a id="mainTimerBtn" class="nav-link text-secondary">
           <i class="bi bi-journal-check me-2"></i>기록 모아보기
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-secondary" href="#">
-          <i class="bi bi-journal-check me-2"></i>지도로 보기
+        <a class="nav-link active fw-bold bg-main-light-blue text-main-dark-blue" aria-current="page" href="#">
+          <i class="bi bi-journal-check me-2"></i>오늘 할 일
         </a>
       </li>
       <li class="nav-item">
@@ -68,7 +68,6 @@
         <div class="card shadow-sm p-4 todo-list-card">
           <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="h5 fw-bold mb-0">오늘의 할 일</h2>
-            <div id="authStatus" class="badge text-bg-warning">인증 중...</div>
           </div>
 
           <!-- New To-Do Input Form -->
