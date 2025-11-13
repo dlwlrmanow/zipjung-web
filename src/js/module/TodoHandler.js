@@ -61,6 +61,7 @@ function createTodoItem(text, id) {
     `;
 
     // 💡 todoListContainer의 가장 위쪽에 추가 (최신 할 일이 위에 오도록)
+    // TODO: id 값도 같이 받아와서 내림차순
     todoListContainer.prepend(listItem);
 
     // 삭제 버튼에 이벤트 리스너 연결
@@ -146,6 +147,7 @@ async function handleAddTodo() {
         try {
             const newTodo = await TodoService.saveNewTodo(text);
 
+            // TODO: 저장 성공하자마자 바로 옆에 띄워주기 위해서 불러오기
             // 2. 임시로 클라이언트에서 항목 생성 및 추가
             // createTodoItem(text, todoIdCounter++);
 

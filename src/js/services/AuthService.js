@@ -2,7 +2,6 @@ import {AuthTokenStorage} from "./TokenStorage.js"; // 자동로그인때문에 
 import {LoginApi} from "../api/LoginApi.js";
 import {LogoutApi} from "../api/LogoutApi.js";
 import {ExpiredTokenException} from "../../utils/ExpiredTokenException.js";
-import {ReissueTokenApi} from "../api/ReissueTokenApi.js";
 
 export class AuthService {
     static async login(username, password) {
@@ -25,18 +24,6 @@ export class AuthService {
         // session에 담긴 token 삭제
         AuthTokenStorage.clearToken();
         console.log('[AuthService] token remove');
-    }
-
-    static async reissueToken() {
-        const accessToken = AuthTokenStorage.getToken();
-
-        if(accessToken) {
-            // 지우고 재발급
-            try {
-                await ReissueTokenApi.reissueToken('http://localhost:8080/auth/reissue/token/web', accessToken);
-            } catch (e) {
-            }
-        }
     }
 }
 
