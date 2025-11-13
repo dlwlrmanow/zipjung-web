@@ -39,7 +39,7 @@ if(mainTimer) {
 }
 
 // 임시 Todo ID 카운터 (실제로는 서버 DB에서 ID를 부여받아야 함)
-// let todoIdCounter = 1;
+let todoIdCounter = 1;
 
 
 function createTodoItem(text, id) {
@@ -147,9 +147,7 @@ async function handleAddTodo() {
         try {
             const newTodo = await TodoService.saveNewTodo(text);
 
-            // TODO: 저장 성공하자마자 바로 옆에 띄워주기 위해서 불러오기
-            // 2. 임시로 클라이언트에서 항목 생성 및 추가
-            // createTodoItem(text, todoIdCounter++);
+            // 상위에 바로 보여주기
 
             // 3. 입력 필드 초기화
             todoInput.value = '';
@@ -163,6 +161,10 @@ async function handleAddTodo() {
     alert('할 일 내용을 입력해주세요.');
     todoInput.focus();
 }
+
+// async function refreshList() { // 방금 저장한 것만 보이기
+//     await TodoService.refreshTodoList();
+// }
 
 
 document.addEventListener('DOMContentLoaded', () => {

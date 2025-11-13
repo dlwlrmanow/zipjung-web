@@ -1,18 +1,16 @@
-import {TodoException} from "../../utils/TodoException.js";
+import axiosInstance from "../../utils/AxiosInstance.js";
+import {ExpiredTokenException} from "../../utils/ExpiredTokenException.js";
 
 export class GetTodoListApi {
-    static async getTodoList(url, data) {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {'Content-Type': 'application/json; charset=UTF-8', 'Authorization': `Bearer ${data}`},
-            credentials: 'include'
-        });
-
-        if (response.ok) {
-            // TODO: JSON으로부터 List 파싱
+    static async getTodoList(url) {
+        try {
+            const response = await axiosInstance(url);
+            return response.data;
+        } catch (e) {
+            if(e.response.status === 401) {
+                throw new ExpiredTokenException('[GetTodoListApi] 토큰 만료 가능성');
+            }
+            throw new Error('[GetTodoListApi] 알 수 없는 오류 발생');
         }
-        throw new TodoException('todo list fetch fail: ', response.status);
     }
-
-
 }

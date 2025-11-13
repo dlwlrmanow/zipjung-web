@@ -4,7 +4,7 @@ import axiosInstance from "../../utils/AxiosInstance.js";
 export class SaveTodoApi {
     static async saveTodo(url, data) {
         try {
-            const response = await axiosInstance.post(url, {data: data});
+            const response = await axiosInstance.post(url, data);
 
             return response.data;
         } catch (e) {
