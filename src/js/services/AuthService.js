@@ -4,6 +4,13 @@ import {LogoutApi} from "../api/LogoutApi.js";
 import {ExpiredTokenException} from "../../utils/ExpiredTokenException.js";
 
 export class AuthService {
+    // 단순히 토큰만 확인 async X
+    static isLoggedIn() {
+        // TODO: token 재발급 후 요청 추가 sliding session
+        const accesstoken = AuthTokenStorage.getToken();
+        return !!accesstoken; // true 값을 반환
+    }
+
     static async login(username, password) {
         const data = {username, password};
 
