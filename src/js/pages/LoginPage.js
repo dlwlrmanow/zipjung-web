@@ -88,13 +88,12 @@ export const renderLoginContent = () => {
         
             </div>
           </div>
-        </main>
-    `;
-}
+        </main>`
+};
 
 export const renderLoginPage = (container) => {
     // header, footer 제외
-    container.innerHTML = renderLoginContent;
+    container.innerHTML = renderLoginContent(); // 함수로 호출해야
 
     // 로그인 이벤트
     loginEvents();

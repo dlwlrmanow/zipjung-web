@@ -1,11 +1,13 @@
 import {ExpiredTokenException} from "../../utils/ExpiredTokenException.js";
 
 export class LogoutApi {
-    static async invalidateToken(url, data) {
+    static async invalidateToken(url) {
         console.log("[invalidateToken] start");
         const response = await fetch(url, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json; charset=UTF-8', 'Authorization': `Bearer ${data}`},
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+            },
             credentials: 'include'
         });
 

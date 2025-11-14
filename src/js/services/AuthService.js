@@ -1,7 +1,7 @@
-import {AuthTokenStorage} from "./TokenStorage.js"; // 자동로그인때문에 모듈 순서 주의
+import {AuthTokenStorage} from "./TokenStorage.js"; // 자동 로그인 때문에 모듈 순서 주의
 import {LoginApi} from "../api/LoginApi.js";
 import {LogoutApi} from "../api/LogoutApi.js";
-import {ExpiredTokenException} from "../../utils/ExpiredTokenException.js";
+import {AuthException} from "../../utils/AuthException.js";
 
 export class AuthService {
     // 단순히 토큰만 확인 async X
@@ -23,10 +23,10 @@ export class AuthService {
         const accessToken = AuthTokenStorage.getToken();
 
         if(accessToken == null) {
-            throw new ExpiredTokenException('[AuthService] token remove fail! not exist!');
+            throw new AuthException('[AuthService] token remove fail! not exist!');
         }
 
-        await LogoutApi.invalidateToken('http://localhost:8080/auth/logout/web', accessToken);
+        await LogoutApi.invalidateToken('http://localhost:8080/auth/logout/web');
 
         // session에 담긴 token 삭제
         AuthTokenStorage.clearToken();

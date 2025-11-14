@@ -1,5 +1,6 @@
 import {navigateTo} from '../../router.js';
 import {AuthService} from "../js/services/AuthService.js";
+import {logoutEvents} from "../js/module/LoginHandler.js";
 
 export const Gnb = (currentPath) => {
     const validateUser = AuthService.isLoggedIn();
@@ -13,8 +14,7 @@ export const Gnb = (currentPath) => {
                 </a>
               </li>
             <li className="nav-item">
-                <a className="nav-link ${currentPath === '/main' ? 'active fw-bold bg-main-light-blue text-main-dark-blue' : 'text-secondary'}"
-                   onClick="AuthService.logout()">
+                <a className="nav-link text-secondary" onclick="logoutEvents()">
                     <i className="bi bi-gear me-2"></i>로그아웃
                 </a>
             </li>`

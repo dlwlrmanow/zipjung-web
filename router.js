@@ -2,6 +2,8 @@ import {AuthService} from "./src/js/services/AuthService.js";
 import {renderLoginPage} from "./src/js/pages/LoginPage.js";
 import {renderMainPage} from "./src/js/pages/MainPage.js";
 import {renderJoinPage} from "./src/js/pages/JoinPage.js";
+import {renderTodoPage} from "./src/js/pages/TodoPage.js";
+import {renderMainTimerPage} from "./src/js/pages/MainTimerPage.js";
 
 
 export const navigateTo = (path) => {
@@ -54,7 +56,7 @@ export const router = async () => {
         if (!AuthService.isLoggedIn()) {
             return navigateTo('/login');
         }
-        renderMainPage(appContainer);
+        renderTodoPage(appContainer);
     }
 
     else if (path === '/main-timer') {
@@ -62,7 +64,7 @@ export const router = async () => {
         if (!AuthService.isLoggedIn()) {
             return navigateTo('/login');
         }
-        renderMainPage(appContainer);
+        renderMainTimerPage(appContainer);
     }
     // 404 처리 렌더링할 content없음
     else {
