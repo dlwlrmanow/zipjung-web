@@ -54,7 +54,8 @@ export const router = async () => {
     else if (path === '/todos') {
         // 로그인 안 되어있으면 login으로 이동
         if (!AuthService.isLoggedIn()) {
-            return navigateTo('/login');
+            // 사용자가 요청한 쿼리파라미터에 저장
+            return navigateTo(`/login?redirect=${encodeURIComponent(path)}`);
         }
         renderTodoPage(appContainer);
     }
@@ -62,7 +63,8 @@ export const router = async () => {
     else if (path === '/main-timer') {
         // 로그인 안 되어있으면 login으로 이동
         if (!AuthService.isLoggedIn()) {
-            return navigateTo('/login');
+            // 사용자가 요청한 쿼리파라미터에 저장
+            return navigateTo(`/login?redirect=${encodeURIComponent(path)}`);
         }
         renderMainTimerPage(appContainer);
     }

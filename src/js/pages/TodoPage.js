@@ -1,7 +1,7 @@
 import {Layout} from "../../components/Layout.js";
 
 export const renderTodoContent = () => {
-    const todoContent = `
+    return `
         <!-- 3. 메인 콘텐츠 컨테이너 -->
         <main class="flex-grow-1">
           <div class="container max-w-5xl-card mx-auto px-4 px-sm-5 my-5">
@@ -43,10 +43,8 @@ export const renderTodoContent = () => {
           </div>
         </main>
     `;
-
-    return todoContent;
 }
 
-export const renderTodoPage = (containerElement) => {
-    containerElement.innterHTML = Layout(renderTodoContent());
+export const renderTodoPage = (container) => {
+    container.innerHTML = Layout(renderTodoContent());
 }

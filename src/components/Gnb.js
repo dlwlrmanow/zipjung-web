@@ -13,16 +13,16 @@ export const Gnb = (currentPath) => {
                   <i class="bi bi-person me-2"></i>마이 페이지
                 </a>
               </li>
-            <li className="nav-item">
-                <a className="nav-link text-secondary" onclick="logoutEvents()">
-                    <i className="bi bi-gear me-2"></i>로그아웃
+            <li class="nav-item">
+                <a class="nav-link text-secondary" onclick="logoutEvents()">
+                    <i class="bi bi-gear me-2"></i>로그아웃
                 </a>
             </li>`
         :
-            `<li className="nav-item">
-                <a className="nav-link ${currentPath === '/login' ? 'active fw-bold bg-main-light-blue text-main-dark-blue' : 'text-secondary'}"
+            `<li class="nav-item">
+                <a class="nav-link ${currentPath === '/login' ? 'active fw-bold bg-main-light-blue text-main-dark-blue' : 'text-secondary'}"
                    onClick="navigateTo('/login')"> 
-                    <i className="bi bi-gear me-2"></i>로그인
+                    <i class="bi bi-gear me-2"></i>로그인
                 </a>
             </li>`
         ;
@@ -44,8 +44,8 @@ export const Gnb = (currentPath) => {
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link ${currentPath === '/main' ? 'active fw-bold bg-main-light-blue text-main-dark-blue' : 'text-secondary'}" 
-                    onclick="navigateTo('/main')">
+                <a class="nav-link ${currentPath === '/' ? 'active fw-bold bg-main-light-blue text-main-dark-blue' : 'text-secondary'}" 
+                    onclick="navigateTo('/')">
                   <i class="bi bi-journal-check me-2"></i>메인 페이지
                 </a>
               </li>

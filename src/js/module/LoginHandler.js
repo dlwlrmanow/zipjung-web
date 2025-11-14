@@ -17,7 +17,14 @@ export function loginEvents() {
             try {
                 await AuthService.login(username, password);
 
-                // 뒤로가기 방지 화면 렌더링
+                const urlParams = new URLSearchParams(window.location.search);
+                const redirectPath = urlParams.get('redirect');
+
+                if(redirectPath) {
+                    navigateTo(decodeURIComponent(redirectPath));
+                    return;
+                }
+                // 뒤로가기 방지
                 navigateTo('/');
             } catch (e) {
                 console.error(e.message, e.statusCode);
