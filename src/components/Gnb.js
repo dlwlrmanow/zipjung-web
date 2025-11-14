@@ -1,4 +1,4 @@
-import {navigateTo} from 'router.js';
+import {navigateTo} from '../../router.js';
 import {AuthService} from "../js/services/AuthService.js";
 
 export const Gnb = (currentPath) => {
@@ -14,7 +14,7 @@ export const Gnb = (currentPath) => {
               </li>
             <li className="nav-item">
                 <a className="nav-link ${currentPath === '/main' ? 'active fw-bold bg-main-light-blue text-main-dark-blue' : 'text-secondary'}"
-                   onClick="navigateTo('/main')">
+                   onClick="AuthService.logout()">
                     <i className="bi bi-gear me-2"></i>로그아웃
                 </a>
             </li>`
@@ -53,12 +53,6 @@ export const Gnb = (currentPath) => {
                 <a class="nav-link ${currentPath === '/todos' ? 'active fw-bold bg-main-light-blue text-main-dark-blue' : 'text-secondary'}" 
                     onclick="navigateTo('/todos')">
                   <i class="bi bi-map me-2"></i>해야 할 일
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link ${currentPath === '/my-page' ? 'active fw-bold bg-main-light-blue text-main-dark-blue' : 'text-secondary'}" 
-                    onclick="navigateTo('/my-page')">
-                  <i class="bi bi-person me-2"></i>마이 페이지
                 </a>
               </li>
                 ${authNavItem}

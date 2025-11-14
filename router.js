@@ -1,10 +1,8 @@
 import {AuthService} from "./src/js/services/AuthService.js";
 import {renderLoginPage} from "./src/js/pages/LoginPage.js";
-import {renderTodoPage} from "./src/js/pages/TodoPage.js";
-import {Layout} from "./src/components/Layout.js";
-import {renderMainPage} from "./src/js/pages/Main.js";
-import {renderMainTimerPage} from "./src/js/pages/MainTimerPage.js";
-import {renderJoinPage} from "./src/js/pages/JoingPage.js";
+import {renderMainPage} from "./src/js/pages/MainPage.js";
+import {renderJoinPage} from "./src/js/pages/JoinPage.js";
+
 
 export const navigateTo = (path) => {
     // 뒤로가기 기록 남지 않음
@@ -39,26 +37,24 @@ export const router = async () => {
         renderJoinPage(appContainer);
     }
 
+    else if (path === '/') {
+        // if (!AuthService.isLoggedIn()) {
+        //     return navigateTo('/login');
+        // }
+        renderMainPage(appContainer);
+    }
+
         /*
             Route Mapping:
             로그인 완전 필요함 로그인 되어 있지 않ㄴ으면 로그인 강제 이동
          */
-
-    else if (path === '/main' || path === '/') {
-        if (!AuthService.isLoggedIn()) {
-            return navigateTo('/login');
-        }
-        const mainContent = renderMainPage();
-        appContanier.innterHTML = Layout(mainContent);
-    }
 
     else if (path === '/todos') {
         // 로그인 안 되어있으면 login으로 이동
         if (!AuthService.isLoggedIn()) {
             return navigateTo('/login');
         }
-        const todoContent = renderTodoPage();
-        appContanier.innterHTML = Layout(todoContent);
+        renderMainPage(appContainer);
     }
 
     else if (path === '/main-timer') {
@@ -66,11 +62,11 @@ export const router = async () => {
         if (!AuthService.isLoggedIn()) {
             return navigateTo('/login');
         }
-        const timerContent = renderMainTimerPage();
-        appContanier.innterHTML = Layout(timerContent);
+        renderMainPage(appContainer);
     }
-    // 3. 404 처리 (경로가 없는 경우)
+    // 404 처리 렌더링할 content없음
     else {
+        // layout 제외
         appContainer.innerHTML = "<h1>404 Not Found</h1>";
     }
 

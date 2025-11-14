@@ -14,30 +14,6 @@ const todoListContainer = document.getElementById('todoListContainer');
 const loadingMessage = document.getElementById('loadingMessage');
 const emptyMessage = document.getElementById('emptyMessage');
 
-if (logoutBtn) {
-    logoutBtn.addEventListener('click', async (event) => {
-        event.preventDefault();
-
-        try {
-            await AuthService.logout();
-            // token 무효화 후 페이지 이동
-            // 뒤로가기 불가
-            window.location.replace('../main.html');
-        } catch (e) {
-            console.error(e);
-            alert('로그아웃 실패');
-        }
-    })
-}
-
-if(mainTimer) {
-    mainTimer.addEventListener('click', (event) => {
-        event.preventDefault();
-
-        window.location.href = '../timer/main-timer.html';
-    })
-}
-
 // 임시 Todo ID 카운터 (실제로는 서버 DB에서 ID를 부여받아야 함)
 let todoIdCounter = 1;
 
