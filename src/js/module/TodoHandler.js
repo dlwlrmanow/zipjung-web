@@ -1,26 +1,8 @@
-import {AuthService} from "../services/AuthService.js";
 import {TodoService} from "../services/TodoService.js";
-
-(async () => {
-    // TODO: 페이지 이동시 불러오기
-
-})();
-
-const logoutBtn = document.getElementById('logoutBtn');
-const mainTimer = document.getElementById('mainTimerBtn');
-const todoInput = document.getElementById('todoInput');
-const addTodoBtn = document.getElementById('addTodoBtn');
-const todoListContainer = document.getElementById('todoListContainer');
-const loadingMessage = document.getElementById('loadingMessage');
-const emptyMessage = document.getElementById('emptyMessage');
-
-// 임시 Todo ID 카운터 (실제로는 서버 DB에서 ID를 부여받아야 함)
-let todoIdCounter = 1;
-
 
 function createTodoItem(text, id) {
     const listItem = document.createElement('li');
-    // Bootstrap list-group-item 클래스 및 스타일 적용
+
     listItem.className = 'list-group-item d-flex justify-content-between align-items-center py-3';
     listItem.id = `todo-item-${id}`;
 
@@ -36,7 +18,7 @@ function createTodoItem(text, id) {
         </div>
     `;
 
-    // 💡 todoListContainer의 가장 위쪽에 추가 (최신 할 일이 위에 오도록)
+    // todoListContainer의 가장 위쪽에 추가 (최신 할 일이 위에 오도록)
     // TODO: id 값도 같이 받아와서 내림차순
     todoListContainer.prepend(listItem);
 
@@ -116,54 +98,81 @@ function toggleTodoComplete(event) {
 /**
  * 할 일 추가 버튼 클릭 이벤트 핸들러
  */
-async function handleAddTodo() {
-    const text = todoInput.value.trim();
-
-    if (text) {
-        try {
-            const newTodo = await TodoService.saveNewTodo(text);
-
-            // 상위에 바로 보여주기
-
-            // 3. 입력 필드 초기화
-            todoInput.value = '';
-            todoInput.focus();
-        } catch (e) {
-            console.error(e);
-            alert('Todo 저장 중 서버 오류가 발생하였습니다.');
-        }
-    }
-
-    alert('할 일 내용을 입력해주세요.');
-    todoInput.focus();
-}
+// async function handleAddTodo(text) {
+//     if (text) {
+//         try {
+//             const newTodo = await TodoService.saveNewTodo(text);
+//
+//             // 상위에 바로 보여주기
+//
+//             // 3. 입력 필드 초기화
+//             todoInput.value = '';
+//             todoInput.focus();
+//         } catch (e) {
+//             console.error(e);
+//             alert('Todo 저장 중 서버 오류가 발생하였습니다.');
+//         }
+//     }
+//
+//     alert('할 일 내용을 입력해주세요.');
+//     todoInput.focus();
+// }
 
 // async function refreshList() { // 방금 저장한 것만 보이기
 //     await TodoService.refreshTodoList();
 // }
 
+export function todoEvents() {
+    const todoInput = document.getElementById('todoInput');
+    const addTodoBtn = document.getElementById('addTodoBtn');
+    const todoListContainer = document.getElementById('todoListContainer');
+    const loadingMessage = document.getElementById('loadingMessage');
+    const emptyMessage = document.getElementById('emptyMessage');
 
-document.addEventListener('DOMContentLoaded', () => {
+    // 임시 Todo ID 카운터 (실제로는 서버 DB에서 ID를 부여받아야 함)
+    let todoIdCounter = 1;
+
     if (addTodoBtn) {
-        addTodoBtn.addEventListener('click', handleAddTodo);
+        addTodoBtn.addEventListener('click', async (event) => {
+            const text = todoInput.value.trim();
 
-        // 엔터 키로 입력
-        todoInput.addEventListener('keypress', (event) => {
-            if (event.key === 'Enter') {
-                event.preventDefault(); // 기본 폼 제출 방지
-                handleAddTodo();
+            if (text) {
+                try {
+                    const newTodo = await TodoService.saveNewTodo(text);
+
+                    // 상위에 바로 보여주기
+
+                    // 3. 입력 필드 초기화
+                    todoInput.value = '';
+                    todoInput.focus();
+                } catch (e) {
+                    console.error(e);
+                    alert('Todo 저장 중 서버 오류가 발생하였습니다.');
+                }
+                return;
             }
+
+            alert('할 일을 입력하세요');
+            todoInput.focus();
         });
 
-        // 초기 로드 시 할 일이 없음을 가정 (TODO: 실제로는 API로 불러와야 함)
-        if (todoListContainer.children.length === 1 && todoListContainer.children[0].id === 'loadingMessage') {
-            // 500ms 후 로딩 메시지 숨김 처리 (API 응답 지연 시뮬레이션)
-            setTimeout(() => {
-                loadingMessage.classList.add('d-none');
-                if (emptyMessage) {
-                    emptyMessage.classList.remove('d-none');
-                }
-            }, 500);
-        }
+        // 엔터 키로 입력
+        // todoInput.addEventListener('keypress', (event) => {
+        //     if (event.key === 'Enter') {
+        //         event.preventDefault(); // 기본 폼 제출 방지
+        //         handleAddTodo();
+        //     }
+        // });
     }
-});
+
+    // 초기 로드 시 할 일이 없음을 가정 (TODO: 실제로는 API로 불러와야 함)
+    if (todoListContainer.children.length === 1 && todoListContainer.children[0].id === 'loadingMessage') {
+        // 500ms 후 로딩 메시지 숨김 처리 (API 응답 지연 시뮬레이션)
+        setTimeout(() => {
+            loadingMessage.classList.add('d-none');
+            if (emptyMessage) {
+                emptyMessage.classList.remove('d-none');
+            }
+        }, 500);
+    }
+}

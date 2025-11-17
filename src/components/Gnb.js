@@ -44,12 +44,6 @@ export const Gnb = (currentPath) => {
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link ${currentPath === '/' ? 'active fw-bold bg-main-light-blue text-main-dark-blue' : 'text-secondary'}" 
-                    onclick="navigateTo('/')">
-                  <i class="bi bi-journal-check me-2"></i>메인 페이지
-                </a>
-              </li>
-              <li class="nav-item">
                 <a class="nav-link ${currentPath === '/todos' ? 'active fw-bold bg-main-light-blue text-main-dark-blue' : 'text-secondary'}" 
                     onclick="navigateTo('/todos')">
                   <i class="bi bi-map me-2"></i>해야 할 일

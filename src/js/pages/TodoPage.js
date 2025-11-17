@@ -1,4 +1,5 @@
 import {Layout} from "../../components/Layout.js";
+import {todoEvents} from "../module/TodoHandler.js";
 
 export const renderTodoContent = () => {
     return `
@@ -47,4 +48,6 @@ export const renderTodoContent = () => {
 
 export const renderTodoPage = (container) => {
     container.innerHTML = Layout(renderTodoContent());
+
+    todoEvents();
 }

@@ -15,8 +15,11 @@ axiosInstance.interceptors.request.use(
     (config) => {
         // 모든 요청에서 가장 최신의 토큰을 가져와서
         const accessToken = AuthTokenStorage.getToken();
+
+        console.log('[axiosInstance Interceptor]');
+        console.log(`${accessToken}`);
         if(accessToken) {
-            config.headers.Authorization = `Bearer ${accessToken}`; // header에 담는다
+            config.headers.Authorization = `Bearer ${accessToken}`;
         }
         return config;
     },

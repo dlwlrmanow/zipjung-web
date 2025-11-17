@@ -26,7 +26,7 @@ export const router = async () => {
 
     if (path === '/login') {
         if (AuthService.isLoggedIn()) {
-            return navigateTo('/main');
+            return navigateTo('/');
         }
         // layout 없이 rendering
         renderLoginPage(appContainer);
@@ -34,15 +34,12 @@ export const router = async () => {
 
     else if (path === '/join') {
         if (AuthService.isLoggedIn()) {
-            return navigateTo('/main');
+            return navigateTo('/');
         }
         renderJoinPage(appContainer);
     }
 
     else if (path === '/') {
-        // if (!AuthService.isLoggedIn()) {
-        //     return navigateTo('/login');
-        // }
         renderMainPage(appContainer);
     }
 
