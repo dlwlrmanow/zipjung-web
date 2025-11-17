@@ -2,6 +2,9 @@ import {AuthTokenStorage} from "./TokenStorage.js"; // 자동 로그인 때문�
 import {LoginApi} from "../api/LoginApi.js";
 import {LogoutApi} from "../api/LogoutApi.js";
 import {AuthException} from "../../utils/AuthException.js";
+import {JoinApi} from "../api/JoinApi.js";
+import {ExistUserException} from "../../utils/ExistUserException.js";
+import {DuplicateUsernameException} from "../../utils/DuplicateUsernameException.js";
 
 export class AuthService {
     // 단순히 토큰만 확인 async X
@@ -31,6 +34,18 @@ export class AuthService {
         // session에 담긴 token 삭제
         AuthTokenStorage.clearToken();
         console.log('[AuthService] token remove');
+    }
+
+    static async join(username, password, email) {
+        const userdata = {
+            username: username,
+            password: password,
+            email: email,
+        }
+        await JoinApi.fetchJoin('http://localhost:8080/user/join', userdata);
+
+        // join 성공 -> 로그인 페이지로 유동
+        navigateTo('login');
     }
 }
 

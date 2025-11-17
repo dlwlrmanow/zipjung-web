@@ -1,5 +1,4 @@
 import {ExpiredTokenException} from "../../utils/ExpiredTokenException.js";
-import axiosInstance from "../../utils/AxiosInstance.js";
 import {AuthTokenStorage} from "../services/TokenStorage.js";
 
 export class SaveTodoApi {
