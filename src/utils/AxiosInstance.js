@@ -32,6 +32,7 @@ axiosInstance.interceptors.request.use(
 
         console.log('[axiosInstance Interceptor]');
         console.log(`${accessToken}`);
+
         if(accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
         }
@@ -47,19 +48,14 @@ axiosInstance.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        // ExpiredTokenException에 대해서만 재시도하도록
-        if(!error.response && error.name !== 'TOKEN_EXPIRED') {
-            return Promise.reject(error);
-        }
-
-        if(error.name === 'TOKEN_EXPIRED' && originalRequest && !originalRequest._retry) {
+        if(error.response.status === 401 && originalRequest && !originalRequest._retry) {
+            console.log('[axiosInstance.interceptors.response]///////////////////////////////')
             return await ReissueTokenHandler(error, originalRequest, axiosInstance);
         }
 
         // 재시도 실패시 토큰 만료 예외가 아닌 다른 에러는 던짐
         return Promise.reject(error);
     }
-
 );
 
 export default axiosInstance;

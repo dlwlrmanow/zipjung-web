@@ -139,8 +139,7 @@ export function todoEvents() {
             if (text) {
                 try {
                     const newTodo = await TodoService.saveNewTodo(text);
-
-                    // 상위에 바로 보여주기
+                    // TODO: 리스트에 어떻게 바로 반영할건지
 
                     // 3. 입력 필드 초기화
                     todoInput.value = '';

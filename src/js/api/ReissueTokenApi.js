@@ -14,7 +14,7 @@ export class ReissueTokenApi {
         });
 
         if (response.ok) {
-            console.log('login 성공');
+            console.log('reissueAccess 성공');
             const token = await response.json();
 
             return token.accessToken;

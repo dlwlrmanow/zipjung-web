@@ -1,18 +1,19 @@
 import {ReissueTokenApi} from "../api/ReissueTokenApi.js";
 import {AuthTokenStorage} from "../services/TokenStorage.js";
-import axiosInstance from "../../utils/AxiosInstance.js";
 import {navigateTo} from "../../../router.js";
 
-export async function ReissueTokenHandler(error, originalRequest) {
+export async function ReissueTokenHandler(error, originalRequest, axiosInstance) {
     const url = 'http://localhost:8080/auth/reissue/token/web';
 
-    if(error && error.name === 'TOKEN_EXPIRED' && !originalRequest._retry) {
+    if(!originalRequest._retry) {
         // 재시도 플래그
         originalRequest._retry = true;
 
         try {
+            // AT없이 RT가지고만 검증
+            console.log('[ReissueTokenHandler] 호출');
             const newToken = await ReissueTokenApi.reissueToken(url);
-            console.log('[ReissueTokenHandler] 호출')
+
             // 재발급 받은 AT session storage에 저장
             AuthTokenStorage.setToken(newToken);
 
@@ -26,7 +27,7 @@ export async function ReissueTokenHandler(error, originalRequest) {
             // TODO: SSE 로 로그인 실패 알림 띄우고 싶음
 
             // 로그인 페이지로 리다이렉션
-            navigateTo('/');
+            navigateTo('/login');
 
             return Promise.reject(new Error("로그인 필요"));
         }
