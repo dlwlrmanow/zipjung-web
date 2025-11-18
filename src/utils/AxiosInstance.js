@@ -2,6 +2,9 @@ import axios from 'axios';
 import {AuthTokenStorage} from "../js/services/TokenStorage.js";
 import {ReissueTokenHandler} from "../js/module/ReissueTokenHandler.js";
 
+// 제외할 매핑
+const publicPaths = ['/auth/login/web', '/user/join'];
+
 const axiosInstance = axios.create({
     baseURL: 'http://localhost:8080',
     timeout: 10000, // 10초
@@ -13,6 +16,17 @@ const axiosInstance = axios.create({
 // 요청에 대한 인터셉터
 axiosInstance.interceptors.request.use(
     (config) => {
+        // 전체 url과 조합되기 전 url
+        const url = config.url;
+
+        // 제외할 경로인지 확인 후 제외
+        const isPublicPath = publicPaths.includes(url);
+
+        if(isPublicPath) {
+            console.log(`[axiosInstance] public path (${url})`);
+            return config; // 다시 전체 url 돌려주기
+        }
+
         // 모든 요청에서 가장 최신의 토큰을 가져와서
         const accessToken = AuthTokenStorage.getToken();
 

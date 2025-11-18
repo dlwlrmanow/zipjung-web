@@ -32,7 +32,7 @@ export const renderLoginContent = () => {
                 </p>
                 <div class="mt-3">
                   <button class="btn px-4 py-2 bg-main-dark-blue text-white fw-semibold rounded-pill shadow-lg hover-shadow transition-all duration-300">
-                    앱 자세히 알아보기
+                    지금 집중과 함께하기
                   </button>
                 </div>
               </div>

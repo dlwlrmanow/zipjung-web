@@ -1,4 +1,5 @@
 import zipjungIconUrl from '../../assets/images/zipjung-icon.png'
+import {joinEvents} from "../module/JoinHandler.js";
 
 export const renderJoinContent= () => {
     return `
@@ -53,9 +54,9 @@ export const renderJoinContent= () => {
                   </div>
                 </div>
         
-                <button type="submit" id="submitJoinBtn"
+                <button type="submit"
                         class="btn btn-primary w-100 py-3 fw-bold rounded-3" 
-                        disabled> 
+                        > 
                   회원 가입 완료
                 </button>
               </form>
@@ -69,4 +70,6 @@ export const renderJoinContent= () => {
 export const renderJoinPage = (container) => {
     // layut 제외
     container.innerHTML = renderJoinContent();
+
+    joinEvents();
 }

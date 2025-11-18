@@ -7,7 +7,7 @@ export class JoinApi {
         console.log('[fetchJoin] 호출');
 
         try {
-            const response = await axiosInstance(url, newUserData);
+            const response = await axiosInstance.post(url, newUserData);
 
             return response.data;
 

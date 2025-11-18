@@ -6,16 +6,18 @@ import {AuthException} from "../../utils/AuthException.js";
 export function loginEvents() {
     const loginForm = document.getElementById('loginForm');
     const joinBtn = document.getElementById('joinBtn');
+    const username = document.getElementById('username');
+    const password = document.getElementById('password');
 
     if(loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+            const usernameValue = username.value.trim();
+            const passwordValue = password.value.trim();
 
             try {
-                await AuthService.login(username, password);
+                await AuthService.login(usernameValue, passwordValue);
 
                 const urlParams = new URLSearchParams(window.location.search);
                 const redirectPath = urlParams.get('redirect');
