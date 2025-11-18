@@ -31,7 +31,7 @@ export const renderLoginContent = () => {
                   간결하고 직관적인 디자인으로 복잡한 설정 없이 바로 시작할 수 있습니다.
                 </p>
                 <div class="mt-3">
-                  <button class="btn px-4 py-2 bg-main-dark-blue text-white fw-semibold rounded-pill shadow-lg hover-shadow transition-all duration-300">
+                  <button id="joinBtnAd" class="btn px-4 py-2 bg-main-dark-blue text-white fw-semibold rounded-pill shadow-lg hover-shadow transition-all duration-300">
                     지금 집중과 함께하기
                   </button>
                 </div>

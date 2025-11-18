@@ -15,7 +15,7 @@ export class TodoService {
 
         try {
             // await SaveTodoApi.saveTodo('/todo/save', newTodoData);
-            await SaveTodoApi.saveTodo('http://localhost:8080/todo/save', newTodoData);
+            await SaveTodoApi.saveTodo('/todo/save', newTodoData);
         } catch (e) {
             // token expired 잡아서 reissue처리 + 기존 API 다시 요청
             return await ReissueTokenHandler(e, axiosInstance);

@@ -6,6 +6,7 @@ import {AuthException} from "../../utils/AuthException.js";
 export function loginEvents() {
     const loginForm = document.getElementById('loginForm');
     const joinBtn = document.getElementById('joinBtn');
+    const joinBtnAd = document.getElementById('joinBtnAd')
     const username = document.getElementById('username');
     const password = document.getElementById('password');
 
@@ -38,6 +39,11 @@ export function loginEvents() {
 
     if(joinBtn) {
         joinBtn.addEventListener('click', () => {
+            navigateTo('/join');
+        });
+    }
+    if(joinBtnAd) {
+        joinBtnAd.addEventListener('click', () => {
             navigateTo('/join');
         });
     }
