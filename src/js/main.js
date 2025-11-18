@@ -7,4 +7,6 @@ window.AuthService = AuthService; // 이미 로그인한 user인지 확인 후 g
 window.navigateTo = navigateTo; // onclick 사용 가능
 window.logoutEvents = logoutEvents; // gnb에서 logout
 
+// notification도 할당
+
 document.addEventListener('DOMContentLoaded', router);

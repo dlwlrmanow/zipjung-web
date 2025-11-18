@@ -3,8 +3,8 @@ import {LoginApi} from "../api/LoginApi.js";
 import {LogoutApi} from "../api/LogoutApi.js";
 import {AuthException} from "../../utils/AuthException.js";
 import {JoinApi} from "../api/JoinApi.js";
-import {ExistUserException} from "../../utils/ExistUserException.js";
-import {DuplicateUsernameException} from "../../utils/DuplicateUsernameException.js";
+import {NotificationService} from "./NotificationService.js";
+import {handleNotificationOnReceived} from "../module/NotificationHandler.js";
 
 export class AuthService {
     // 단순히 토큰만 확인 async X
@@ -23,6 +23,12 @@ export class AuthService {
         // api 타고 받아온 access token storage 저장
         const accessToken = await LoginApi.fetchLogin('http://localhost:8080/auth/login/web', userData);
         AuthTokenStorage.setToken(accessToken);
+
+        try {
+            await NotificationService.connect(handleNotificationOnReceived);
+        } catch (e) {
+            console.error('[SSE error]');
+        }
     }
 
     static async logout() {
@@ -37,6 +43,9 @@ export class AuthService {
         // session에 담긴 token 삭제
         AuthTokenStorage.clearToken();
         console.log('[AuthService] token remove');
+
+        // TODO: SSE emitter도 닫아주기
+        NotificationService.disconnect();
     }
 
     static async join(username, password, email) {
