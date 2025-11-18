@@ -21,6 +21,7 @@ export function joinEvents() {
             e.preventDefault();
 
             const usernameValue = joinUsername.value.trim();
+            const passwordValue = joinPassword.value.trim();
             const emailValue = joinEmail.value.trim();
 
             // 폼 유효성 확인
@@ -42,9 +43,9 @@ export function joinEvents() {
                 return;
             }
 
-            if(usernameValue != null && joinPassword != null && emailValue != null && consentCheck) {
+            if(usernameValue != null && passwordValue != null && emailValue != null && consentCheck) {
                 try {
-                    await AuthService.join(joinUsername, joinPassword, joinEmail);
+                    await AuthService.join(usernameValue, passwordValue, emailValue);
 
                     // 성공 시 로그인 페이지로 이동
                     navigateTo('/login');

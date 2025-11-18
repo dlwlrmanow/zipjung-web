@@ -3,6 +3,8 @@ import {LoginApi} from "../api/LoginApi.js";
 import {LogoutApi} from "../api/LogoutApi.js";
 import {AuthException} from "../../utils/AuthException.js";
 import {JoinApi} from "../api/JoinApi.js";
+import {ExistUserException} from "../../utils/ExistUserException.js";
+import {DuplicateUsernameException} from "../../utils/DuplicateUsernameException.js";
 
 export class AuthService {
     // 단순히 토큰만 확인 async X
@@ -43,10 +45,8 @@ export class AuthService {
             password: password,
             email: email,
         }
-        await JoinApi.fetchJoin('/user/join', userdata);
 
-        // join 성공 -> 로그인 페이지로 유동
-        navigateTo('login');
+        await JoinApi.fetchJoin('http://localhost:8080/user/join', userdata);
     }
 }
 
