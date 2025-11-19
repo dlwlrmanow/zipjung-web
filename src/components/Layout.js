@@ -7,7 +7,7 @@ export const Layout = (content) => {
 
     return `
         <div id="main-layout">
-            ${Header}
+            ${Header()}
             ${Gnb(currentPath)}
             <main id="page-content">
                 ${content}

@@ -23,6 +23,7 @@ export class AuthService {
         // api 타고 받아온 access token storage 저장
         const accessToken = await LoginApi.fetchLogin('http://localhost:8080/auth/login/web', userData);
         AuthTokenStorage.setToken(accessToken);
+        AuthTokenStorage.setUsername(username);
 
         try {
             await NotificationService.connect(handleNotificationOnReceived);
@@ -44,7 +45,7 @@ export class AuthService {
         AuthTokenStorage.clearToken();
         console.log('[AuthService] token remove');
 
-        // TODO: SSE emitter도 닫아주기
+        // SSE emitter도 닫아주기
         NotificationService.disconnect();
     }
 

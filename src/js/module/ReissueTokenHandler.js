@@ -19,7 +19,7 @@ export async function ReissueTokenHandler(error, originalRequest, axiosInstance)
             // 재발급 받은 AT session storage에 저장
             AuthTokenStorage.setToken(newToken);
 
-            // TODO: 기존 구독했을 때 만들어둔 emitter 찾아오기
+            // 기존 구독했을 때 만들어둔 emitter 찾아오기
             await NotificationService.connect(handleNotificationOnReceived);
 
             return axiosInstance(originalRequest);
