@@ -3,7 +3,7 @@ import {AuthTokenStorage} from "../services/TokenStorage.js";
 import {navigateTo} from "../../../router.js";
 
 export async function ReissueTokenHandler(error, originalRequest, axiosInstance) {
-    const url = 'http://localhost:8080/auth/reissue/token/web';
+    const url = 'http://localhost:8080/auth/reissue/access/web';
 
     if(!originalRequest._retry) {
         // 재시도 플래그

@@ -21,8 +21,9 @@ function showNotificationToast(notification) {
     const toastContainer = document.getElementById('toastContainer');
     if (!toastContainer) return;
 
-    const toastHtml = `
-            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+    const toastHtml = // data-bs-autohide="false" 옵션 삭제
+        `
+            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true"> 
                 <div class="toast-header bg-main-light-blue text-main-dark-blue fw-bold">
                     <i class="bi bi-bell-fill me-2"></i>
                     <strong class="me-auto">${notification.title}</strong>
@@ -38,7 +39,7 @@ function showNotificationToast(notification) {
     toastContainer.insertAdjacentHTML('beforeend', toastHtml);
     const toastEl = toastContainer.lastElementChild;
     const toast = new bootstrap.Toast(toastEl, {
-        delay: 5000
+        delay: 2000
     });
     toast.show();
 
