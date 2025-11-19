@@ -30,9 +30,6 @@ axiosInstance.interceptors.request.use(
         // 모든 요청에서 가장 최신의 토큰을 가져와서
         const accessToken = AuthTokenStorage.getToken();
 
-        console.log('[axiosInstance Interceptor]');
-        console.log(`${accessToken}`);
-
         if(accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
         }
@@ -50,6 +47,7 @@ axiosInstance.interceptors.response.use(
 
         if(error.response.status === 401 && originalRequest && !originalRequest._retry) {
             console.log('[axiosInstance.interceptors.response.use] AT 재발급 로직 start');
+
             return await ReissueTokenHandler(error, originalRequest, axiosInstance);
         }
 

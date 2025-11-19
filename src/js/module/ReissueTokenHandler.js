@@ -1,6 +1,8 @@
 import {ReissueTokenApi} from "../api/ReissueTokenApi.js";
 import {AuthTokenStorage} from "../services/TokenStorage.js";
 import {navigateTo} from "../../../router.js";
+import {NotificationService} from "../services/NotificationService.js";
+import {handleNotificationOnReceived} from "./NotificationHandler.js";
 
 export async function ReissueTokenHandler(error, originalRequest, axiosInstance) {
     const url = 'http://localhost:8080/auth/reissue/access/web';
@@ -16,6 +18,9 @@ export async function ReissueTokenHandler(error, originalRequest, axiosInstance)
 
             // 재발급 받은 AT session storage에 저장
             AuthTokenStorage.setToken(newToken);
+
+            // TODO: 기존 구독했을 때 만들어둔 emitter 찾아오기
+            await NotificationService.connect(handleNotificationOnReceived);
 
             return axiosInstance(originalRequest);
         } catch (e) {
