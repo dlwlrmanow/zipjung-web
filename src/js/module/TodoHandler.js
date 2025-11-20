@@ -1,42 +1,5 @@
 import {TodoService} from "../services/TodoService.js";
 
-function createTodoItem(text, id) {
-    const listItem = document.createElement('li');
-
-    listItem.className = 'list-group-item d-flex justify-content-between align-items-center py-3';
-    listItem.id = `todo-item-${id}`;
-
-    listItem.innerHTML = `
-        <div class="d-flex align-items-center">
-            <input class="form-check-input me-3 todo-check" type="checkbox" data-todo-id="${id}">
-            <span class="todo-text">${text}</span>
-        </div>
-        <div>
-            <button class="btn btn-sm btn-outline-danger border-0 todo-delete-btn" data-todo-id="${id}">
-                <i class="bi bi-trash"></i>
-            </button>
-        </div>
-    `;
-
-    // todoListContainer의 가장 위쪽에 추가 (최신 할 일이 위에 오도록)
-    // TODO: id 값도 같이 받아와서 내림차순
-    todoListContainer.prepend(listItem);
-
-    // 삭제 버튼에 이벤트 리스너 연결
-    listItem.querySelector('.todo-delete-btn').addEventListener('click', deleteTodoItem);
-    // 체크박스에 이벤트 리스너 연결 (완료 처리)
-    listItem.querySelector('.todo-check').addEventListener('change', toggleTodoComplete);
-
-    // 로딩 메시지 숨기기 (로딩 메시지가 있다면)
-    if (loadingMessage) {
-        loadingMessage.classList.add('d-none');
-    }
-    // 빈 목록 메시지가 있다면 숨기기
-    if (emptyMessage && !emptyMessage.classList.contains('d-none')) {
-        emptyMessage.classList.add('d-none');
-    }
-}
-
 /**
  * 할 일을 삭제하는 이벤트 핸들러 (실제로는 서버 API 호출 필요)
  */
@@ -62,18 +25,6 @@ async function deleteTodoItem(event) {
     } catch (e) {
         console.error(e);
         alert('삭제에 실패하였습니다. 잠시후 다시 시도해주세요');
-    }
-
-    if (item) {
-        item.remove();
-
-        // 목록이 비었는지 확인하여 emptyMessage 표시
-        if (todoListContainer.children.length === 0 ||
-            (todoListContainer.children.length === 1 && todoListContainer.children[0].id === 'loadingMessage')) {
-            if (emptyMessage) {
-                emptyMessage.classList.remove('d-none');
-            }
-        }
     }
 }
 
@@ -102,37 +53,146 @@ export function todoEvents() {
     const loadingMessage = document.getElementById('loadingMessage');
     const emptyMessage = document.getElementById('emptyMessage');
 
-    // 임시 Todo ID 카운터 (실제로는 서버 DB에서 ID를 부여받아야 함)
+    // 임시 todo_id counter 서버 저장 전에 미리 보여주기용
     let todoIdCounter = 1;
 
-    // TODOs Save
+    function createTodoItem(text, id, date) {
+        const listItem = document.createElement('li');
+
+        listItem.className = 'list-group-item d-flex justify-content-between align-items-center py-3';
+        listItem.id = `todo-item-${id}`;
+
+        listItem.innerHTML = `
+            <div class="d-flex align-items-center">
+                <input class="form-check-input me-3 todo-check" type="checkbox" data-todo-id="${id}">
+                <span class="todo-text">${text}</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <span class="small text-muted me-3">
+                    ${date}
+                </span>
+                <button class="btn btn-sm btn-outline-danger border-0 todo-delete-btn" data-todo-id="${id}">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+            <div>
+                
+            </div>
+        `;
+
+        listItem.querySelector('.todo-delete-btn').addEventListener('click', deleteTodoItem);
+        listItem.querySelector('.todo-check').addEventListener('change', toggleTodoComplete);
+
+        return listItem;
+    }
+
+    const initFetchTodos = async () => {
+        // 초기에 로딩 보여주기
+        if(loadingMessage) {
+            loadingMessage.classList.remove('d-none');
+        }
+
+        try {
+            const result = await TodoService.getTodos();
+
+            todoListContainer.innerHTML = ''; // 리스트 초기화
+
+            // todos 없는 경우
+            if(result.count === 0) {
+                setTimeout(() => {
+                    loadingMessage.classList.add('d-none');
+                    if (emptyMessage) {
+                        emptyMessage.classList.remove('d-none');
+                    }
+                }, 5000);
+            }
+
+            // todos UI에 노출
+            result.data.forEach(todos => {
+                const dateFromDB = new Date(todos.createdAt); // 월/일 형태로 출력
+                const dateFormatted = `${dateFromDB.getMonth() + 1}. ${dateFromDB.getDate()}`
+
+                const listItem = createTodoItem(todos.task, todos.id, dateFormatted);
+                todoListContainer.prepend(listItem); // 최신 항목이 맨 위로
+            })
+
+            // 로딩 메세지 숨기기
+            if(loadingMessage) loadingMessage.classList.add('d-none');
+            if(emptyMessage) emptyMessage.classList.add('d-none');
+
+        } catch (e) {
+            console.error('[TodoHandler]', e);
+
+            // 에러 발생시 로딩 메세지는 숨기기
+            if(emptyMessage) {
+                emptyMessage.classList.remove('d-none');
+                emptyMessage.textContent = '리스트를 가져오지 못했습니다🥲';
+            }
+
+        }
+    }
+
+
     const handleAddTodo = async () => {
         const text = todoInput.value.trim();
 
-        if (text) {
-            try {
-                await TodoService.saveNewTodo(text);
-
-                // 입력 필드 초기화
-                todoInput.value = '';
-                todoInput.focus();
-
-                // TODO: 성공시 바로 list 불러오기
-
-            } catch (e) {
-                console.error(e);
-                alert('Todo 저장 중 서버 오류가 발생하였습니다.');
-            }
+        if(!text) {
+            alert('할 일을 입력하세요');
+            todoInput.focus();
             return;
         }
+        // 임시 UI에 보여줄 date formate
+        const dateObj = new Date(Date.now());
+        const month = dateObj.getMonth() + 1;
+        const date = dateObj.getDate();
 
-        alert('할 일을 입력하세요');
+        // 임시 todos UI
+        const tempId = `temp-${Date.now()}`;
+        const tempDate = `${month}. ${date}`;
+        const tempItem = createTodoItem(text, tempId, tempDate);
+
+        if(loadingMessage) loadingMessage.classList.add('d-none');
+        if(emptyMessage) emptyMessage.classList.add('d-none');
+
+        // 임시로 화면에 보이기
+        todoListContainer.prepend(tempItem);
+
+        // 입력창 초기화
+        todoInput.value = '';
         todoInput.focus();
-    }
-    // TODO: save하자마자 호출
-    const fetchTodoList = async () => {
 
+        // 진짜로 저장하기
+        try {
+            const realDBSave = await TodoService.saveNewTodo(text);
+
+            if(realDBSave && realDBSave.id) {
+                const savedTodoId = realDBSave.id;
+                tempItem.id = `todo-item-${savedTodoId}` // 진짜 id로 수정
+
+                // checkBox랑 deleteBtn도 진짜 id 필요하니까 수정해주기
+                const checkBox = tempItem.querySelector('.todo-check');
+                const deleteBtn = tempItem.querySelector('.todo-delete-btn');
+
+                if(checkBox) checkBox.dataset.todoId = savedTodoId;
+                if(deleteBtn) deleteBtn.dataset.todoId = savedTodoId;
+            }
+
+            // TODO: 저장후에는 새로 fetch 받아오기
+        } catch (e) {
+            console.error(e);
+
+            // 실패한 경우에는 임시로 UI에 띄운 TODOs 삭제
+            tempItem.remove();
+            alert('Todo 저장 중 서버 오류가 발생하였습니다.');
+
+            // 사용자 편의를 위해서 input 값 되돌려놓기
+            todoInput.value = text;
+        }
     }
+
+    // 페이지 렌더링시에 자동 호출
+    // todos리스트 가져오기
+    initFetchTodos();
 
     if (addTodoBtn) {
         addTodoBtn.addEventListener('click', (e) => {
@@ -146,17 +206,5 @@ export function todoEvents() {
             e.preventDefault();
             handleAddTodo();
         }
-    })
-
-
-    // 초기 로드 시 할 일이 0 (TODO: 실제로는 API로 불러와야 함)
-    if (todoListContainer.children.length === 1 && todoListContainer.children[0].id === 'loadingMessage') {
-        // 500ms 후 로딩 메시지 숨김 처리 (API 응답 지연 시뮬레이션)
-        setTimeout(() => {
-            loadingMessage.classList.add('d-none');
-            if (emptyMessage) {
-                emptyMessage.classList.remove('d-none');
-            }
-        }, 500);
-    }
+    });
 }

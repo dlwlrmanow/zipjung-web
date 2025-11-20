@@ -1,8 +1,5 @@
-import {AuthTokenStorage} from "./TokenStorage.js";
 import {SaveTodoApi} from "../api/SaveTodoApi.js";
 import {DeleteTodoApi} from "../api/DeleteTodoApi.js";
-import {ReissueTokenHandler} from "../module/ReissueTokenHandler.js";
-import axiosInstance from "../../utils/AxiosInstance.js";
 import {GetTodoListApi} from "../api/GetTodoListApi.js";
 
 export class TodoService {
@@ -13,7 +10,7 @@ export class TodoService {
             isDone: false
         };
 
-        await SaveTodoApi.saveTodo('/todo/save', newTodoData);
+        return await SaveTodoApi.saveTodo('/todo/save', newTodoData);
     }
 
     static async deleteTodoById(id) {
@@ -26,7 +23,7 @@ export class TodoService {
     }
 
     static async getTodos() {
-        await GetTodoListApi.getTodoList('/todo/fetch/list');
+        return await GetTodoListApi.getTodoList('/todo/fetch/list');
     }
 
 }

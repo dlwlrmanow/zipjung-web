@@ -1,7 +1,7 @@
 export const Footer = `
     <footer class="mt-5 py-5 border-top bg-light">
       <div class="container max-w-5xl-card mx-auto px-4 px-sm-5">
-        <div class="row">
+        <div class="row align-items-start">
           <div class="col-md-6 mb-4 mb-md-0">
             <h6 class="fw-bold mb-3">사업자 정보</h6>
             <p class="small text-muted mb-1">
@@ -17,7 +17,7 @@ export const Footer = `
             </p>
           </div>
     
-          <div class="col-md-6 d-flex justify-content-end">
+          <div class="col-md-6 d-flex justify-content-end align-items-start">
             <div>
               <h6 class="fw-bold mb-3">고객센터</h6>
               <p class="small text-muted mb-1">
