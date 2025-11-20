@@ -95,33 +95,6 @@ function toggleTodoComplete(event) {
     }
 }
 
-/**
- * 할 일 추가 버튼 클릭 이벤트 핸들러
- */
-// async function handleAddTodo(text) {
-//     if (text) {
-//         try {
-//             const newTodo = await TodoService.saveNewTodo(text);
-//
-//             // 상위에 바로 보여주기
-//
-//             // 3. 입력 필드 초기화
-//             todoInput.value = '';
-//             todoInput.focus();
-//         } catch (e) {
-//             console.error(e);
-//             alert('Todo 저장 중 서버 오류가 발생하였습니다.');
-//         }
-//     }
-//
-//     alert('할 일 내용을 입력해주세요.');
-//     todoInput.focus();
-// }
-
-// async function refreshList() { // 방금 저장한 것만 보이기
-//     await TodoService.refreshTodoList();
-// }
-
 export function todoEvents() {
     const todoInput = document.getElementById('todoInput');
     const addTodoBtn = document.getElementById('addTodoBtn');
@@ -132,39 +105,51 @@ export function todoEvents() {
     // 임시 Todo ID 카운터 (실제로는 서버 DB에서 ID를 부여받아야 함)
     let todoIdCounter = 1;
 
-    if (addTodoBtn) {
-        addTodoBtn.addEventListener('click', async (event) => {
-            const text = todoInput.value.trim();
+    // TODOs Save
+    const handleAddTodo = async () => {
+        const text = todoInput.value.trim();
 
-            if (text) {
-                try {
-                    const newTodo = await TodoService.saveNewTodo(text);
-                    // TODO: 리스트에 어떻게 바로 반영할건지
+        if (text) {
+            try {
+                await TodoService.saveNewTodo(text);
 
-                    // 3. 입력 필드 초기화
-                    todoInput.value = '';
-                    todoInput.focus();
-                } catch (e) {
-                    console.error(e);
-                    alert('Todo 저장 중 서버 오류가 발생하였습니다.');
-                }
-                return;
+                // 입력 필드 초기화
+                todoInput.value = '';
+                todoInput.focus();
+
+                // TODO: 성공시 바로 list 불러오기
+
+            } catch (e) {
+                console.error(e);
+                alert('Todo 저장 중 서버 오류가 발생하였습니다.');
             }
+            return;
+        }
 
-            alert('할 일을 입력하세요');
-            todoInput.focus();
-        });
+        alert('할 일을 입력하세요');
+        todoInput.focus();
+    }
+    // TODO: save하자마자 호출
+    const fetchTodoList = async () => {
 
-        // 엔터 키로 입력
-        // todoInput.addEventListener('keypress', (event) => {
-        //     if (event.key === 'Enter') {
-        //         event.preventDefault(); // 기본 폼 제출 방지
-        //         handleAddTodo();
-        //     }
-        // });
     }
 
-    // 초기 로드 시 할 일이 없음을 가정 (TODO: 실제로는 API로 불러와야 함)
+    if (addTodoBtn) {
+        addTodoBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            handleAddTodo();
+        });
+    }
+    // 엔터로도 저장 가능
+    todoInput.addEventListener('keypress', (e) => {
+        if(e.key === 'Enter') {
+            e.preventDefault();
+            handleAddTodo();
+        }
+    })
+
+
+    // 초기 로드 시 할 일이 0 (TODO: 실제로는 API로 불러와야 함)
     if (todoListContainer.children.length === 1 && todoListContainer.children[0].id === 'loadingMessage') {
         // 500ms 후 로딩 메시지 숨김 처리 (API 응답 지연 시뮬레이션)
         setTimeout(() => {

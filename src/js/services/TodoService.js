@@ -16,17 +16,17 @@ export class TodoService {
         await SaveTodoApi.saveTodo('/todo/save', newTodoData);
     }
 
-    static async deleteTodoById(item) {
-        const accessToken = AuthTokenStorage.getToken();
-
-        await DeleteTodoApi.deleteTodoById('http://localhost:8080/todo/delete/{id}', accessToken, item);
-    }
-
-    static async refreshTodoList() {
+    static async deleteTodoById(id) {
         try {
-            await GetTodoListApi.getTodoList('/todo/list');
+            await DeleteTodoApi.deleteTodoById(`/todo/delete/${id}`);
         } catch (e) {
-            return await ReissueTokenHandler(e, axiosInstance);
+            console.error('[TodoService] getTodos: ', e);
+            alert('삭제 중 문제 발생: ' + e.response.data);
         }
     }
+
+    static async getTodos() {
+        await GetTodoListApi.getTodoList('/todo/fetch/list');
+    }
+
 }
