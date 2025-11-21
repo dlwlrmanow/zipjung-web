@@ -1,6 +1,7 @@
 import {SaveTodoApi} from "../api/SaveTodoApi.js";
 import {DeleteTodoApi} from "../api/DeleteTodoApi.js";
 import {GetTodoListApi} from "../api/GetTodoListApi.js";
+import {UpdateTodoIsDoneApi} from "../api/UpdateTodoIsDoneApi.js";
 
 export class TodoService {
     static async saveNewTodo(text){
@@ -24,6 +25,10 @@ export class TodoService {
 
     static async getTodos() {
         return await GetTodoListApi.getTodoList('/todo/fetch/list');
+    }
+
+    static async changeIsDone(todoId) {
+        await UpdateTodoIsDoneApi.updateIsDone(`/todo/update/isdone/${todoId}`);
     }
 
 }

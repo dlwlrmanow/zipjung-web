@@ -28,33 +28,14 @@ async function deleteTodoItem(event) {
     }
 }
 
-/**
- * 할 일 완료 상태를 토글하는 이벤트 핸들러 (실제로는 서버 API 호출 필요)
- */
-function toggleTodoComplete(event) {
-    const checkbox = event.currentTarget;
-    const todoId = checkbox.dataset.todoId;
-    const itemText = checkbox.closest('.list-group-item').querySelector('.todo-text');
-
-    // 실제로는 서버에 완료 상태 업데이트 API를 호출해야 함
-    console.log(`[TodoHandler] Todo ID ${todoId} 완료 상태 변경: ${checkbox.checked ? '완료' : '미완료'} (API 호출 필요)`);
-
-    if (checkbox.checked) {
-        itemText.classList.add('text-decoration-line-through', 'text-muted');
-    } else {
-        itemText.classList.remove('text-decoration-line-through', 'text-muted');
-    }
-}
-
 export function todoEvents() {
+    const pendingRemovals = {};
+
     const todoInput = document.getElementById('todoInput');
     const addTodoBtn = document.getElementById('addTodoBtn');
     const todoListContainer = document.getElementById('todoListContainer');
     const loadingMessage = document.getElementById('loadingMessage');
     const emptyMessage = document.getElementById('emptyMessage');
-
-    // 임시 todo_id counter 서버 저장 전에 미리 보여주기용
-    let todoIdCounter = 1;
 
     function createTodoItem(text, id, date) {
         const listItem = document.createElement('li');
@@ -175,9 +156,12 @@ export function todoEvents() {
 
                 if(checkBox) checkBox.dataset.todoId = savedTodoId;
                 if(deleteBtn) deleteBtn.dataset.todoId = savedTodoId;
+
+                // TODO: 저장후에는 새로 fetch 받아오기
+                initFetchTodos();
             }
 
-            // TODO: 저장후에는 새로 fetch 받아오기
+
         } catch (e) {
             console.error(e);
 
@@ -187,6 +171,57 @@ export function todoEvents() {
 
             // 사용자 편의를 위해서 input 값 되돌려놓기
             todoInput.value = text;
+        }
+    }
+
+    // 할 일 완료
+    const toggleTodoComplete = async (event) => {
+        const checkbox = event.currentTarget;
+        const todoId = checkbox.dataset.todoId;
+        const itemText = checkbox.closest('.list-group-item').querySelector('.todo-text');
+
+        // isDone으로 변경되면 삭제될 항목
+        const itemDone = document.getElementById(`todo-item-${todoId}`);
+
+        if (checkbox.checked) {
+            // UI에서 strike 어쩌구 선 긋게
+            itemText.classList.add('text-decoration-line-through', 'text-muted');
+
+            // 지연 시간 주고 todos 리스트에서 삭제
+            const DELAY_TIME = 3000; // 3초
+
+            const timeoutId = setTimeout(async () => {
+                // 체크하고 5초 후 실행
+                // DB 데이터 수정
+                try {
+                    await TodoService.changeIsDone(todoId);
+
+                    // 성공시 해당 항목 삭제
+                    if(itemDone) {
+                        itemDone.remove();
+                    }
+                } catch (e) {
+                    console.error('[TodoService isDone] fail', e);
+                    alert('완료 처리 중에 오류 발생');
+                    // 실패하면 중간에 선 그은 거 복구
+                    checkbox.checked = false;
+                    itemText.classList.remove('text-decoration-line-through', 'text-muted');
+                }
+                delete pendingRemovals[todoId];
+
+            }, DELAY_TIME);
+            pendingRemovals[todoId] = timeoutId;
+        } else {
+            if(pendingRemovals[todoId]) { // 진행중인 게 있는지 확인
+                clearTimeout(pendingRemovals[todoId]); // 타이머 취소
+                delete pendingRemovals[todoId]; // 저장된 Id 삭제
+                console.log(`Todo is_Done ${todoId}진행 취소!`);
+            }
+
+            // UI 복구
+            itemText.classList.remove('text-decoration-line-through', 'text-muted');
+
+            // TODO: 취소할 API 필요할까?
         }
     }
 
