@@ -28,7 +28,7 @@ export class TodoService {
     }
 
     static async changeIsDone(todoId) {
-        await UpdateTodoIsDoneApi.updateIsDone(`/todo/update/isdone/${todoId}`);
+        return await UpdateTodoIsDoneApi.updateIsDone(`/todo/update/isdone/${todoId}`);
     }
 
 }

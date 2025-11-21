@@ -1,33 +1,5 @@
 import {TodoService} from "../services/TodoService.js";
 
-/**
- * 할 일을 삭제하는 이벤트 핸들러 (실제로는 서버 API 호출 필요)
- */
-async function deleteTodoItem(event) {
-    const btn = event.currentTarget;
-    const todoId = btn.dataset.todoId;
-    const item = document.getElementById(`todo-item-${todoId}`);
-
-    try {
-        await TodoService.deleteTodoById(item);
-
-        if (item) {
-            item.remove();
-
-            // 목록이 비었는지 확인하여 emptyMessage 표시
-            if (todoListContainer.children.length === 0 ||
-                (todoListContainer.children.length === 1 && todoListContainer.children[0].id === 'loadingMessage')) {
-                if (emptyMessage) {
-                    emptyMessage.classList.remove('d-none');
-                }
-            }
-        }
-    } catch (e) {
-        console.error(e);
-        alert('삭제에 실패하였습니다. 잠시후 다시 시도해주세요');
-    }
-}
-
 export function todoEvents() {
     const pendingRemovals = {};
 
@@ -37,7 +9,7 @@ export function todoEvents() {
     const loadingMessage = document.getElementById('loadingMessage');
     const emptyMessage = document.getElementById('emptyMessage');
 
-    function createTodoItem(text, id, date) {
+    const createTodoItem = (text, id, date) => {
         const listItem = document.createElement('li');
 
         listItem.className = 'list-group-item d-flex justify-content-between align-items-center py-3';
@@ -56,9 +28,6 @@ export function todoEvents() {
                     <i class="bi bi-trash"></i>
                 </button>
             </div>
-            <div>
-                
-            </div>
         `;
 
         listItem.querySelector('.todo-delete-btn').addEventListener('click', deleteTodoItem);
@@ -67,8 +36,9 @@ export function todoEvents() {
         return listItem;
     }
 
+    // 페이지 렌더링 되자마자 todos list 가져오기
     const initFetchTodos = async () => {
-        // 초기에 로딩 보여주기
+        // fetch 해오는 동안 로딩 보여주기
         if(loadingMessage) {
             loadingMessage.classList.remove('d-none');
         }
@@ -78,41 +48,41 @@ export function todoEvents() {
 
             todoListContainer.innerHTML = ''; // 리스트 초기화
 
-            // todos 없는 경우
-            if(result.count === 0) {
-                setTimeout(() => {
-                    loadingMessage.classList.add('d-none');
-                    if (emptyMessage) {
-                        emptyMessage.classList.remove('d-none');
-                    }
-                }, 5000);
+            // 데이터가 있는지 확인
+            if(result && result.count > 0) {
+                result.data.forEach(todos => {
+                    // 날짜 포맷
+                    const dateFromDB = new Date(todos.createdAt); // 월/일 형태로 출력
+                    const dateFormatted = `${dateFromDB.getMonth() + 1}. ${dateFromDB.getDate()}`
+
+                    // todos item 그리기
+                    const listItem = createTodoItem(todos.task, todos.id, dateFormatted);
+                    todoListContainer.prepend(listItem); // 최신 항목이 맨 위로
+                })
+
+                // 데이터가 있으니까 empty message 숨기기
+                if(emptyMessage) emptyMessage.classList.add('d-none');
+                // loading도 끝났으니 숨기기
+                loadingMessage.classList.add('d-none');
+
+                return;
             }
 
-            // todos UI에 노출
-            result.data.forEach(todos => {
-                const dateFromDB = new Date(todos.createdAt); // 월/일 형태로 출력
-                const dateFormatted = `${dateFromDB.getMonth() + 1}. ${dateFromDB.getDate()}`
-
-                const listItem = createTodoItem(todos.task, todos.id, dateFormatted);
-                todoListContainer.prepend(listItem); // 최신 항목이 맨 위로
-            })
-
-            // 로딩 메세지 숨기기
-            if(loadingMessage) loadingMessage.classList.add('d-none');
-            if(emptyMessage) emptyMessage.classList.add('d-none');
-
+            // todos item이 존재하지 않는 경우
+            if(emptyMessage) {
+                emptyMessage.classList.remove('d-none');
+                emptyMessage.textContent = '아직 할 일을 추가하지 않았어요!🥲';
+            }
         } catch (e) {
-            console.error('[TodoHandler]', e);
+            console.error('[TodoHandler] fetch todos list 실패: ', e);
 
             // 에러 발생시 로딩 메세지는 숨기기
             if(emptyMessage) {
                 emptyMessage.classList.remove('d-none');
                 emptyMessage.textContent = '리스트를 가져오지 못했습니다🥲';
             }
-
         }
     }
-
 
     const handleAddTodo = async () => {
         const text = todoInput.value.trim();
@@ -222,6 +192,31 @@ export function todoEvents() {
             itemText.classList.remove('text-decoration-line-through', 'text-muted');
 
             // TODO: 취소할 API 필요할까?
+        }
+    }
+
+    const deleteTodoItem = async (event) => {
+        const btn = event.currentTarget;
+        const todoId = btn.dataset.todoId;
+        const item = document.getElementById(`todo-item-${todoId}`);
+
+        try {
+            await TodoService.deleteTodoById(todoId);
+
+            if (item) {
+                item.remove();
+
+                // 목록이 비었는지 확인하여 emptyMessage 표시
+                if (todoListContainer.children.length === 0 ||
+                    (todoListContainer.children.length === 1 && todoListContainer.children[0].id === 'loadingMessage')) {
+                    if (emptyMessage) {
+                        emptyMessage.classList.remove('d-none');
+                    }
+                }
+            }
+        } catch (e) {
+            console.error(e);
+            alert('삭제에 실패하였습니다. 잠시후 다시 시도해주세요');
         }
     }
 
