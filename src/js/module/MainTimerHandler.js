@@ -3,10 +3,6 @@ import {AuthService} from "../services/AuthService.js";
 const logoutBtn = document.getElementById('logoutBtn');
 const thingsTodoBtn = document.getElementById('thingsTodoBtn');
 
-document.addEventListener('DOMContentLoaded', async () => {
-
-})
-
 if (logoutBtn) {
     logoutBtn.addEventListener('click', async (event) => {
         event.preventDefault();

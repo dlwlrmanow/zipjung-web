@@ -4,6 +4,7 @@ import {renderMainPage} from "./src/js/pages/MainPage.js";
 import {renderJoinPage} from "./src/js/pages/JoinPage.js";
 import {renderTodoPage} from "./src/js/pages/TodoPage.js";
 import {renderMainTimerPage} from "./src/js/pages/MainTimerPage.js";
+import {renderFocusMapPage} from "./src/js/pages/FocusMapPage.js";
 
 
 export const navigateTo = (path) => {
@@ -64,6 +65,15 @@ export const router = async () => {
             return navigateTo(`/login?redirect=${encodeURIComponent(path)}`);
         }
         renderMainTimerPage(appContainer);
+    }
+
+    else if (path === '/map') {
+        // 로그인 안 되어있으면 login으로 이동
+        if (!AuthService.isLoggedIn()) {
+            // 사용자가 요청한 쿼리파라미터에 저장
+            return navigateTo(`/login?redirect=${encodeURIComponent(path)}`);
+        }
+        renderFocusMapPage(appContainer);
     }
     // 404 처리 렌더링할 content없음
     else {

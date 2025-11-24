@@ -38,8 +38,8 @@ export const Gnb = (currentPath) => {
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link ${currentPath === '/show-map' ? 'active fw-bold bg-main-light-blue text-main-dark-blue' : 'text-secondary'}" 
-                    onclick="navigateTo('/show-map')">
+                <a class="nav-link ${currentPath === '/map' ? 'active fw-bold bg-main-light-blue text-main-dark-blue' : 'text-secondary'}" 
+                    onclick="navigateTo('/map')">
                   <i class="bi bi-journal-check me-2"></i>지도로 보기
                 </a>
               </li>

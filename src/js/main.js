@@ -8,5 +8,4 @@ window.navigateTo = navigateTo; // onclick 사용 가능
 window.logoutEvents = logoutEvents; // gnb에서 logout
 
 // notification도 할당
-
 document.addEventListener('DOMContentLoaded', router);
