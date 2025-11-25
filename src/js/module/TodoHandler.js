@@ -51,6 +51,7 @@ export function todoEvents() {
             // 데이터가 있는지 확인
             if(result && result.count > 0) {
                 result.data.forEach(todos => {
+                    // TODO: 날짜 포맷 백엔드에서 하도록 수정
                     // 날짜 포맷
                     const dateFromDB = new Date(todos.createdAt); // 월/일 형태로 출력
                     const dateFormatted = `${dateFromDB.getMonth() + 1}. ${dateFromDB.getDate()}`
@@ -63,7 +64,7 @@ export function todoEvents() {
                 // 데이터가 있으니까 empty message 숨기기
                 if(emptyMessage) emptyMessage.classList.add('d-none');
                 // loading도 끝났으니 숨기기
-                loadingMessage.classList.add('d-none');
+                if(loadingMessage) loadingMessage.classList.add('d-none');
 
                 return;
             }
@@ -73,6 +74,7 @@ export function todoEvents() {
                 emptyMessage.classList.remove('d-none');
                 emptyMessage.textContent = '아직 할 일을 추가하지 않았어요!🥲';
             }
+            if(loadingMessage) loadingMessage.classList.add('d-none');
         } catch (e) {
             console.error('[TodoHandler] fetch todos list 실패: ', e);
 
