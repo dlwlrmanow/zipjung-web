@@ -98,7 +98,6 @@ const deleteFocusedItemAll = async () => {
     }
     try {
         // TODO: 전체 삭제 API
-
         recordListContainer.innerHTML = ''; // 초기화
 
         // 싹 비웠으니까 다시 emptyMessage 띄우기
