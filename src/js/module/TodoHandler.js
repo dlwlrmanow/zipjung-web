@@ -192,8 +192,6 @@ export function todoEvents() {
 
             // UI 복구
             itemText.classList.remove('text-decoration-line-through', 'text-muted');
-
-            // TODO: 취소할 API 필요할까?
         }
     }
 

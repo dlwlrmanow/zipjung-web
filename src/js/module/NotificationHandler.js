@@ -2,9 +2,8 @@ export function handleNotificationOnReceived(event) {
     try {
         const notificationData = JSON.parse(event.data);
 
-        console.log('[SSE] 새로운 알림', notificationData);
+        const toastContainer = document.getElementById('toast-container');
 
-        const toastContainer = document.getElementById('toastContainer');
         if (!toastContainer) {
             console.error('토스트 컨테이너(toastContainer)를 찾을 수 없습니다.');
             return;
@@ -18,7 +17,7 @@ export function handleNotificationOnReceived(event) {
 }
 
 function showNotificationToast(notification) {
-    const toastContainer = document.getElementById('toastContainer');
+    const toastContainer = document.getElementById('toast-container');
     if (!toastContainer) return;
 
     const toastHtml = // data-bs-autohide="false" 옵션 삭제
@@ -30,13 +29,14 @@ function showNotificationToast(notification) {
                     <small>방금</small>
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
-                <div class="toast-body" style="white-space: pre-wrap;">
+                <div class="toast-body" style="white-space: pre-line;">
                     ${notification.message}
                 </div>
             </div>
         `;
 
-    toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+    toastContainer.insertAdjacentHTML('beforeend', toastHtml); // 새로운 알림 오면 덮어쓰기 X -> 여러개 쌓기
+
     const toastEl = toastContainer.lastElementChild;
     const toast = new bootstrap.Toast(toastEl, {
         delay: 2000
@@ -44,6 +44,6 @@ function showNotificationToast(notification) {
     toast.show();
 
     toastEl.addEventListener('hidden.bs.toast', () => {
-        toastEl.remove();
+        toastEl.remove(); // 삭제로 메모리 관리
     });
 }
