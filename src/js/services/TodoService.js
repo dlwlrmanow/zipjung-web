@@ -2,6 +2,7 @@ import {SaveTodoApi} from "../api/SaveTodoApi.js";
 import {DeleteTodoApi} from "../api/DeleteTodoApi.js";
 import {GetTodoListApi} from "../api/GetTodoListApi.js";
 import {UpdateTodoIsDoneApi} from "../api/UpdateTodoIsDoneApi.js";
+import {FetchReminderApi} from "../api/FetchReminderApi.js";
 
 export class TodoService {
     static async saveNewTodo(text){
@@ -29,6 +30,10 @@ export class TodoService {
 
     static async changeIsDone(todoId) {
         return await UpdateTodoIsDoneApi.updateIsDone(`/todo/update/isdone/${todoId}`);
+    }
+
+    static async getReminder() {
+        return await FetchReminderApi(`/todo/reminder`);
     }
 
 }

@@ -1,6 +1,9 @@
+let isFirstConnection = true;
+
 export function handleNotificationOnReceived(event) {
     try {
         const notificationData = JSON.parse(event.data);
+        const type = notificationData.notificationType; // type으로 한 번만 보내주면 되는 데이터인지 확인
 
         const toastContainer = document.getElementById('toast-container');
 
@@ -9,7 +12,17 @@ export function handleNotificationOnReceived(event) {
             return;
         }
 
-        // 데이터 전달 및 토스트 생성
+        if(type === 'REMINDER') {
+            if(isFirstConnection) {
+                // 로그인 후 처음에만 허용
+                showNotificationToast(notificationData);
+                isFirstConnection = false;
+            } else {
+                console.log('[notification] Reminder 재연결');
+            }
+        }
+
+        // reminder가 아닌 다른 type은 flag 필요 X
         showNotificationToast(notificationData);
     } catch (e) {
         console.error('[SSE] sse 데이터 파싱 오류', e);
