@@ -3,7 +3,7 @@ import {navigateTo} from "../../../router.js";
 import {ExpiredTokenException} from "../../utils/ExpiredTokenException.js";
 import {AuthException} from "../../utils/AuthException.js";
 
-export function loginEvents() {
+export const loginEvents = async () => {
     const loginForm = document.getElementById('loginForm');
     const joinBtn = document.getElementById('joinBtn');
     const joinBtnAd = document.getElementById('joinBtnAd')
@@ -12,7 +12,7 @@ export function loginEvents() {
 
     if(loginForm) {
         loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+            e.preventDefault(); // 기본 동작인 새로고침 방지
 
             const usernameValue = username.value.trim();
             const passwordValue = password.value.trim();
