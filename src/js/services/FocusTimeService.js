@@ -1,5 +1,6 @@
 import {FetchFocusTimeInADayApi} from "../api/FetchFocusTimeInADayApi.js";
-import {DeleteFocusItemApi} from "../api/DeleteFocusItemApi.js";
+import {DeleteFocusedItemAllApi} from "../api/DeleteFocusedItemAllApi.js";
+import {DeleteFocusTimeByIdApi} from "../api/DeleteFocusItemApi.js";
 
 // export const getFocusedTimeInAWeek = async () => {
 //     return await FetchFocusTimeApi("http://localhost:8080/focus-time/list/fetch");
@@ -7,16 +8,15 @@ import {DeleteFocusItemApi} from "../api/DeleteFocusItemApi.js";
 
 //
 export const getFocusedTimeInADay = async () => {
-    console.log('[getFocusedTimeInADay] start');
     return await FetchFocusTimeInADayApi("/focus-time/today/list/fetch");
 }
 
-export const deleteFocusedItem = async (id) => {
-    try {
-        console.log('[deleteFocusedItem] start');
-        return await DeleteFocusItemApi(`/focus-time/delete/${id}`);
-    } catch (e) {
-        console.error('[deleteFocusedItem] 하루 집중 데이터 삭제하기 실패', e);
-        alert('하루의 집중 기록을 삭제하는데 실패하였어요🥲');
-    }
+export const deleteFocusItemOneById = async (id) => {
+    console.log('[deleteFocusedItem] start');
+    return await DeleteFocusTimeByIdApi(`/focus-time/delete/${id}`);
+}
+
+export const deleteFocusedItemAll = async () => {
+    return await DeleteFocusedItemAllApi(`/focus-time/delete/all`);
+
 }

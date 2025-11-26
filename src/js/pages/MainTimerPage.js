@@ -64,10 +64,6 @@ export const renderMainTimerContent = () => {
                         <h5 class="m-0 fw-bold text-secondary"><i class="bi bi-journal-text me-2"></i>집중 기록</h5>
                         <button id="btnClearAll" class="btn btn-sm btn-outline-danger rounded-pill px-3">기록 전체 삭제</button>
                     </div>
-                    
-<!--                    <div class="alert alert-light border-0 bg-light text-center small text-muted mb-3 rounded-4">-->
-<!--                        💡 기록을 누르면 해당 시간으로 타이머가 설정돼요.-->
-<!--                    </div>-->
 
                     <!-- focus time list container 영역 -->
                     <ul id="recordListContainer" class="list-group list-group-flush scroll-area">
@@ -80,10 +76,7 @@ export const renderMainTimerContent = () => {
                     <div id="emptyMessage" class="alert alert-info text-center mt-3 d-none" role="alert">
                         <i class="bi bi-check-circle-fill me-2"></i> 아직 집중 기록이 없어요!
                     </div>
-<!--                        <li class="list-group-item text-center py-5 text-muted opacity-50 empty-message" id="emptyMessage">-->
-<!--                            <i class="bi bi-emoji-smile fs-1 d-block mb-2"></i>-->
-<!--                            아직 집중 기록이 없어요!-->
-<!--                        </li>-->
+
                 </div>
             </div>
         </div>

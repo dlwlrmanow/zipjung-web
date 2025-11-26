@@ -1,5 +1,5 @@
 import axiosInstance from "../../utils/AxiosInstance.js";
 
-export const DeleteFocusItemApi = async (url, id) => {
-  const response = await axiosInstance(url, id);
+export const DeleteFocusTimeByIdApi = async (url, id) => {
+  const response = await axiosInstance.delete(url, id);
 }

@@ -30,7 +30,7 @@ function showNotificationToast(notification) {
                     <small>방금</small>
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
-                <div class="toast-body">
+                <div class="toast-body" style="white-space: pre-wrap;">
                     ${notification.message}
                 </div>
             </div>

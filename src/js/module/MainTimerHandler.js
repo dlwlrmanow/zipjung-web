@@ -1,21 +1,23 @@
-import {getFocusedTimeInADay} from "../services/FocusTimeService.js";
+import {deleteFocusItemOneById, deleteFocusedItemAll, getFocusedTimeInADay} from "../services/FocusTimeService.js";
 
+let recordListContainer; // 여러번 사용되는 경우에 let으로 일단 선언 후 함수에서 할당
 const loadingMessage = document.getElementById('loadingMessage');
 const emptyMessage = document.getElementById('emptyMessage');
-const btnClearAll = document.getElementById('btnClearAll');
 
 export function focusTimeEvents() {
+    const btnClearAll = document.getElementById('btnClearAll');
+
     // 초기에 집중 시간 기록 가져오기
     initFetchFocused();
 
     // 집중 기록 전체 삭제
     if(btnClearAll) {
-        btnClearAll.addEventListener('click', deleteFocusedItemAll);
+        btnClearAll.addEventListener('click', handleDeleteFocusedItemAll);
     }
 }
 
 const initFetchFocused = async () => {
-    const recordListContainer = document.getElementById('recordListContainer');
+    recordListContainer = document.getElementById('recordListContainer');
 
     // 데이터 가져오는 동안 loading
     if(loadingMessage) {
@@ -46,7 +48,9 @@ const initFetchFocused = async () => {
             emptyMessage.classList.remove('d-none');
             emptyMessage.textContent = '아직 집중한 기록이 없어요!🥲';
         }
+
         if(loadingMessage) loadingMessage.classList.add('d-none');
+
     } catch (e) {
         console.error('[MainTimerHandler] fetch focusedTime list 실패: ', e);
 
@@ -62,10 +66,11 @@ const initFetchFocused = async () => {
 }
 
 const createFocusTimeItem = (id, startTime, endTime, focusedTimeStr) => {
+    // 새로 만들어주는 건 -> createElement
     const listItem = document.createElement('li');
 
     listItem.className = 'list-group-item d-flex justify-content-between align-items-center py-3'
-    listItem.id = `time-item-${id}`;
+    listItem.id = `focused-item-${id}`;
 
     listItem.innerHTML = `
         <div class="d-flex align-items-center">
@@ -81,30 +86,63 @@ const createFocusTimeItem = (id, startTime, endTime, focusedTimeStr) => {
         </div>
     `;
 
-    listItem.querySelector('.focused-delete-btn').addEventListener('click', deleteFocusedItem);
+    listItem.querySelector('.focused-delete-btn').addEventListener('click', handleDeleteFocusedItem);
 
     return listItem;
 }
 
-const deleteFocusedItem = async (event) => {
-    // TODO: focusedTime 삭제 API
-    await deleteFocusedItem(id);
+const handleDeleteFocusedItem = async (event) => {
+    const btn = event.currentTarget;
+    const focusId = btn.dataset.focusedId; // data-focused-id
+    const item = document.getElementById(`focused-item-${focusId}`);
+
+    try {
+        console.log(focusId);
+
+        await deleteFocusItemOneById(focusId);
+
+        if (item) {
+            item.remove();
+
+            // 목록이 비었는지 확인하여 emptyMessage 표시
+            if (recordListContainer.children.length === 0 ||
+                (recordListContainer.children.length === 1 && recordListContainer.children[0].id === 'loadingMessage')) {
+                if (emptyMessage) {
+                    emptyMessage.classList.remove('d-none');
+                }
+            }
+        }
+    } catch (e) {
+        console.error('[handleDeleteFocusedItem] fail');
+        alert('삭제에 실패하였습니다. 잠시후에 다시 시대하여주세요');
+    }
 }
 
-const deleteFocusedItemAll = async () => {
+const handleDeleteFocusedItemAll = async (e) => {
+    e.preventDefault();
+
+    console.log('[handleDeleteFocusedItemAll] clicked!');
+
     // 전체 삭제는 한 번 다시 물어보기
     if(!confirm('정말 모든 기록을 삭제하실건가요?🫣')) {
         return;
     }
+
     try {
-        // TODO: 전체 삭제 API
+        console.log("/////////////////////");
+        await deleteFocusedItemAll();
+
         recordListContainer.innerHTML = ''; // 초기화
 
         // 싹 비웠으니까 다시 emptyMessage 띄우기
+        const emptyMessage = document.getElementById('emptyMessage');
+
         if (emptyMessage) {
             emptyMessage.classList.remove('d-none');
             emptyMessage.textContent = '아직 집중한 기록이 없어요!🥲';
         }
     } catch (e) {
+        console.error('[deleteFocusedItemAll] 집중 시간 기록 삭제 오류', e);
+        alert('집중 기록 삭제에 실패하였어요🥲');
     }
 }

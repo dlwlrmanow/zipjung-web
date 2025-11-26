@@ -30,7 +30,7 @@ export function todoEvents() {
             </div>
         `;
 
-        listItem.querySelector('.todo-delete-btn').addEventListener('click', deleteTodoItem);
+        listItem.querySelector('.todo-delete-btn').addEventListener('click', handleDeleteTodoItem);
         listItem.querySelector('.todo-check').addEventListener('change', toggleTodoComplete);
 
         return listItem;
@@ -197,7 +197,7 @@ export function todoEvents() {
         }
     }
 
-    const deleteTodoItem = async (event) => {
+    const handleDeleteTodoItem = async (event) => {
         const btn = event.currentTarget;
         const todoId = btn.dataset.todoId;
         const item = document.getElementById(`todo-item-${todoId}`);
