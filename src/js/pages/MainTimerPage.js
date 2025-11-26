@@ -1,5 +1,6 @@
 import {Layout} from "../../components/Layout.js";
 import {focusTimeEvents} from "../module/MainTimerHandler.js";
+import {focusTimerEvents} from "../module/FocusTimerHandler.js";
 
 export const renderMainTimerContent = () => {
     return `
@@ -23,13 +24,6 @@ export const renderMainTimerContent = () => {
                         <!-- 타이머 시간 표시 (HH:MM:SS) -->
                         <div id="timerDisplay" class="timer-display">00:25:00</div>
 
-                        <!-- 시간 설정 입력 (클릭 시 보임/숨김 토글 가능하게 하거나 별도 모달 추천, 여기선 간단히 상단 배치) -->
-                        <div id="timeInputs" class="d-flex gap-2 mb-3 align-items-center justify-content-center">
-                            <input type="number" id="inputMin" class="form-control text-center bg-light border-0" value="25" min="0" max="180" style="width: 70px;" title="분 설정">
-                            <span>:</span>
-                            <input type="number" id="inputSec" class="form-control text-center bg-light border-0" value="00" min="0" max="59" style="width: 70px;" title="초 설정">
-                        </div>
-
                         <!-- 컨트롤 버튼 (재생, 리셋) -->
                         <div class="d-flex gap-4 align-items-center mb-4">
                             <!-- 재생/일시정지 -->
@@ -50,7 +44,7 @@ export const renderMainTimerContent = () => {
                     </div>
 
                     <!-- 하단 총 집중시간 영역 -->
-                    <div class="total-time-card">
+                    <div class="total-time-card mt-4">
                         <div class="total-time-title">오늘의 총 집중시간</div>
                         <div id="totalTimeDisplay" class="total-time-display">00:00:00</div>
                     </div>
@@ -87,5 +81,6 @@ export const renderMainTimerContent = () => {
 export const renderMainTimerPage = (container) => {
     container.innerHTML = Layout(renderMainTimerContent());
 
-    focusTimeEvents();
+    focusTimerEvents(); // 타이머 관련
+    focusTimeEvents(); // 집중 기록 관련
 }
