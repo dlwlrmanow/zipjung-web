@@ -1,5 +1,5 @@
 import {Layout} from "../../components/Layout.js";
-import {focusTimeEvents} from "../module/MainTimerHandler.js";
+import {focusTimeEvents} from "../module/FocusedTimeListHandler.js";
 import {focusTimerEvents} from "../module/FocusTimerHandler.js";
 
 export const renderMainTimerContent = () => {
@@ -22,7 +22,7 @@ export const renderMainTimerContent = () => {
                     <div class="d-flex flex-column align-items-center flex-grow-1 pt-4">
                         
                         <!-- 타이머 시간 표시 (HH:MM:SS) -->
-                        <div id="timerDisplay" class="timer-display">00:25:00</div>
+                        <div id="timerDisplay" class="timer-display">00:00:00</div>
 
                         <!-- 컨트롤 버튼 (재생, 리셋) -->
                         <div class="d-flex gap-4 align-items-center mb-4">

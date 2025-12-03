@@ -2,7 +2,7 @@ import {deleteFocusItemOneById, deleteFocusedItemAll, getFocusedTimeInADay} from
 
 let recordListContainer; // 여러번 사용되는 경우에 let으로 일단 선언 후 함수에서 할당
 const loadingMessage = document.getElementById('loadingMessage');
-const emptyMessage = document.getElementById('emptyMessage');
+let emptyMessage;
 
 export function focusTimeEvents() {
     const btnClearAll = document.getElementById('btnClearAll');
@@ -44,9 +44,11 @@ const initFetchFocused = async () => {
 
         // result = 0인 경우
         // focused Time이 존재하지 않음
+        emptyMessage = document.getElementById('emptyMessage');
+
         if(emptyMessage) {
             emptyMessage.classList.remove('d-none');
-            emptyMessage.textContent = '아직 집중한 기록이 없어요!🥲';
+            emptyMessage.textContent = '아직 집중한 기록이 없어요! 🥲';
         }
 
         if(loadingMessage) loadingMessage.classList.add('d-none');
@@ -55,9 +57,11 @@ const initFetchFocused = async () => {
         console.error('[MainTimerHandler] fetch focusedTime list 실패: ', e);
 
         // 에러 발생시 로딩 메세지는 숨기기
+        emptyMessage = document.getElementById('emptyMessage');
+
         if(emptyMessage) {
             emptyMessage.classList.remove('d-none');
-            emptyMessage.textContent = '집중 시간을 가져오지 못했습니다🥲';
+            emptyMessage.textContent = '집중 시간을 가져오지 못했습니다 🥲';
         }
         if(loadingMessage) {
             loadingMessage.classList.add('d-none');
@@ -121,15 +125,12 @@ const handleDeleteFocusedItem = async (event) => {
 const handleDeleteFocusedItemAll = async (e) => {
     e.preventDefault();
 
-    console.log('[handleDeleteFocusedItemAll] clicked!');
-
     // 전체 삭제는 한 번 다시 물어보기
-    if(!confirm('정말 모든 기록을 삭제하실건가요?🫣')) {
+    if(!confirm('정말 모든 기록을 삭제하실건가요? 🫣')) {
         return;
     }
 
     try {
-        console.log("/////////////////////");
         await deleteFocusedItemAll();
 
         recordListContainer.innerHTML = ''; // 초기화
@@ -139,10 +140,10 @@ const handleDeleteFocusedItemAll = async (e) => {
 
         if (emptyMessage) {
             emptyMessage.classList.remove('d-none');
-            emptyMessage.textContent = '아직 집중한 기록이 없어요!🥲';
+            emptyMessage.textContent = '아직 집중한 기록이 없어요! 🥲';
         }
     } catch (e) {
         console.error('[deleteFocusedItemAll] 집중 시간 기록 삭제 오류', e);
-        alert('집중 기록 삭제에 실패하였어요🥲');
+        alert('집중 기록 삭제에 실패하였어요 🥲');
     }
 }
