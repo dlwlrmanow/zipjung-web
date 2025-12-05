@@ -30,7 +30,7 @@
 <img width="500" height="127" alt="Image" src="https://github.com/user-attachments/assets/8bd0d704-5912-4e8b-a3f9-5248ce08e1ad" />
 
 #### ⚠️ Todo, 위치기반 집중기록, 집중 기록 평가 등 권한이 필요한 페이지는 로그인이 되어있지 않은 경우 로그인 페이지로 이동합니다.
-![Image](https://github.com/user-attachments/assets/4450cd32-561e-4e63-ac68-c7ac791c33c6)
+![Image](https://github.com/user-attachments/assets/4e9ab874-0b03-4f76-abea-0bbe410b8fd1)
 
 ### Todo
 #### Todo(할 일) 추가하기
