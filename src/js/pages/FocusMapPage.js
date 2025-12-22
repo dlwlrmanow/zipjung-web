@@ -1,5 +1,5 @@
 import {Layout} from "../../components/Layout.js";
-import {loadKakaoMap} from "../module/LoadKakaoMapHandler.js";
+import {loadKakaoMap} from "../Handler/LoadKakaoMapHandler.js";
 
 export const renderFocusMapContent = () => {
     return `

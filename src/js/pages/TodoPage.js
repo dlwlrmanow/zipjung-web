@@ -1,5 +1,5 @@
 import {Layout} from "../../components/Layout.js";
-import {todoEvents} from "../module/TodoHandler.js";
+import {todoEvents} from "../Handler/TodoHandler.js";
 
 export const renderTodoContent = () => {
     return `

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {AuthTokenStorage} from "../js/services/TokenStorage.js";
-import {ReissueTokenHandler} from "../js/module/ReissueTokenHandler.js";
+import {ReissueTokenHandler} from "../js/Handler/ReissueTokenHandler.js";
 
 // 제외할 매핑
 const publicPaths = ['/auth/login/web', '/user/join'];

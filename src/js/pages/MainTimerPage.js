@@ -1,6 +1,6 @@
 import {Layout} from "../../components/Layout.js";
-import {focusTimeEvents} from "../module/FocusedTimeListHandler.js";
-import {focusTimerEvents} from "../module/FocusTimerHandler.js";
+import {focusTimeEvents} from "../Handler/FocusedTimeListHandler.js";
+import {focusTimerEvents} from "../Handler/FocusTimerHandler.js";
 
 export const renderMainTimerContent = () => {
     return `

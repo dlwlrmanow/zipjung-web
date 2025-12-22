@@ -1,6 +1,6 @@
 import {navigateTo} from '../../router.js';
 import {AuthService} from "../js/services/AuthService.js";
-import {logoutEvents} from "../js/module/LoginHandler.js";
+import {logoutEvents} from "../js/Handler/LoginHandler.js";
 
 export const Gnb = (currentPath) => {
     const validateUser = AuthService.isLoggedIn();

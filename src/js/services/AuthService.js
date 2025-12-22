@@ -4,7 +4,7 @@ import {LogoutApi} from "../api/LogoutApi.js";
 import {AuthException} from "../../utils/AuthException.js";
 import {JoinApi} from "../api/JoinApi.js";
 import {NotificationService} from "./NotificationService.js";
-import {handleNotificationOnReceived} from "../module/NotificationHandler.js";
+import {handleNotificationOnReceived} from "../Handler/NotificationHandler.js";
 
 export class AuthService {
     // 단순히 토큰만 확인 async X
