@@ -1,4 +1,5 @@
 import {deleteFocusItemOneById, deleteFocusedItemAll, getFocusedTimeInADay} from "../services/FocusTimeService.js";
+import {searchMapByKeyword} from "./LoadKakaoMapHandler.js";
 
 let recordListContainer; // 여러번 사용되는 경우에 let으로 일단 선언 후 함수에서 할당
 const loadingMessage = document.getElementById('loadingMessage');
@@ -7,8 +8,15 @@ let emptyMessage;
 export function focusTimeEvents() {
     const btnClearAll = document.getElementById('btnClearAll');
 
+    // 위치 모달 확ㅇ니
+    const modalEl = document.getElementById('locationModal');
+    if(!modalEl) return;
+
     // 초기에 집중 시간 기록 가져오기
     initFetchFocused();
+
+    // 검색어로 장소 검색
+    handleSearchEvent();
 
     // 집중 기록 전체 삭제
     if(btnClearAll) {
@@ -78,6 +86,9 @@ const createFocusTimeItem = (id, startTime, endTime, focusedTimeStr) => {
 
     listItem.innerHTML = `
         <div class="d-flex align-items-center">
+            <button class="btn btn-sm text-primary p-0 me-3 add-sub-btn" data-focused-id="${id}">
+                <i class="bi bi-plus-lg" style="font-size: 1.2rem; "></i>
+            </button>
             <span class="focused-time">${focusedTimeStr}</span>
         </div>
         <div class="d-flex align-items-center">
@@ -90,7 +101,10 @@ const createFocusTimeItem = (id, startTime, endTime, focusedTimeStr) => {
         </div>
     `;
 
+    // 아이템 삭제시
     listItem.querySelector('.focused-delete-btn').addEventListener('click', handleDeleteFocusedItem);
+    // 카카오맵으로부터 위치 추가시
+    listItem.querySelector('.add-sub-btn').addEventListener('click', handleAddLocation);
 
     return listItem;
 }
@@ -122,6 +136,39 @@ const handleDeleteFocusedItem = async (event) => {
     }
 }
 
+const handleAddLocation = async (event) => {
+    const btn = event.currentTarget;
+    const item = btn.closest('.list-group-item');
+    const focusId = btn.dataset.focusedId;
+
+    // 위치 모달 불러오기
+    const modalEl = document.getElementById('locationModal');
+    const locationModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+
+    // load되어있는 지도를 실제로 띄우기
+    locationModal.show();
+
+    // TODO: focus_log에 장소 추가하는 API 연결
+}
+
+const handleSearchEvent = () => {
+    // 검색어 가져오기
+    const searchBtn = document.getElementById('searchBtn');
+    const mapSearchKeyword = document.getElementById('mapSearchKeyword');
+
+    searchBtn.addEventListener('click', () => {
+        const keyword = mapSearchKeyword.value.trim();
+
+        // 공백이면 빛 나도록
+        if(!keyword) {
+            mapSearchKeyword.focus(); // 포커스주기
+            return;
+        }
+
+        searchMapByKeyword(keyword);
+    });
+}
+
 const handleDeleteFocusedItemAll = async (e) => {
     e.preventDefault();
 
@@ -147,3 +194,4 @@ const handleDeleteFocusedItemAll = async (e) => {
         alert('집중 기록 삭제에 실패하였어요 🥲');
     }
 }
+

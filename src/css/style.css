@@ -243,3 +243,7 @@ body {
     right: 20px;
     z-index: 1055;
 }
+
+#locationModal .modal-dialog {
+    max-width: 150vh;
+}

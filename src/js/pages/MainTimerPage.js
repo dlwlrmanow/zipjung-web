@@ -1,6 +1,7 @@
 import {Layout} from "../../components/Layout.js";
 import {focusTimeEvents} from "../Handler/FocusedTimeListHandler.js";
 import {focusTimerEvents} from "../Handler/FocusTimerHandler.js";
+import {loadKakaoMap} from "../Handler/LoadKakaoMapHandler.js";
 
 export const renderMainTimerContent = () => {
     return `
@@ -75,6 +76,40 @@ export const renderMainTimerContent = () => {
             </div>
         </div>
     </div>
+    
+    <div class="modal fade" id="locationModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">위치 검색</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <input type="text" id="mapSearchKeyword" class="form-control" placeholder="장소를 입력하세요">
+                        <button class="btn btn-primary" type="button" id="searchBtn">검색</button>
+                    </div>
+<!--                    <div id="map" style="width:100%;height:60vh;"></div>-->
+                    <div class="map_wrap">
+                        <div id="menu_wrap" class="bg_white">
+                            <div class="option">
+                                <div>
+                                    <form onsubmit="searchPlaces(); return false;">
+                                        키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15"> 
+                                        <button type="submit">검색하기</button> 
+                                    </form>
+                                </div>
+                            </div>
+                            <hr>
+                            <ul id="placesList"></ul>
+                            <div id="pagination"></div>
+                        </div>
+                        <div id="map" style="width:100%;height:60vh;position:relative;overflow:hidden;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     `;
 }
 
@@ -83,4 +118,10 @@ export const renderMainTimerPage = (container) => {
 
     focusTimerEvents(); // 타이머 관련
     focusTimeEvents(); // 집중 기록 관련
+
+    const locationModal = document.getElementById('locationModal');
+    // 모달이 완전히 열린 후에 지도 대기
+    locationModal.addEventListener('shown.bs.modal', () => {
+        loadKakaoMap();
+    });
 }
