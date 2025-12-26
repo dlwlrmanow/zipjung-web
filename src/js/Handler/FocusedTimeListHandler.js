@@ -8,20 +8,27 @@ let emptyMessage;
 export function focusTimeEvents() {
     const btnClearAll = document.getElementById('btnClearAll');
 
-    // 위치 모달 확ㅇ니
+    // 모달 태그
+    const searchBtn = document.getElementById('searchBtn');
+    const mapSearchKeyword = document.getElementById('mapSearchKeyword');
+
+    // 위치 모달 확인
     const modalEl = document.getElementById('locationModal');
     if(!modalEl) return;
 
     // 초기에 집중 시간 기록 가져오기
     initFetchFocused();
 
-    // 검색어로 장소 검색
-    handleSearchEvent();
-
     // 집중 기록 전체 삭제
     if(btnClearAll) {
         btnClearAll.addEventListener('click', handleDeleteFocusedItemAll);
     }
+
+    // 장소 검색
+    searchBtn.addEventListener('click', () => {
+        handleSearchEvent(mapSearchKeyword);
+    });
+
 }
 
 const initFetchFocused = async () => {
@@ -151,22 +158,17 @@ const handleAddLocation = async (event) => {
     // TODO: focus_log에 장소 추가하는 API 연결
 }
 
-const handleSearchEvent = () => {
-    // 검색어 가져오기
-    const searchBtn = document.getElementById('searchBtn');
-    const mapSearchKeyword = document.getElementById('mapSearchKeyword');
+const handleSearchEvent = (mapSearchKeyword) => {
+    const keyword = mapSearchKeyword.value.trim();
+    console.log(keyword);
 
-    searchBtn.addEventListener('click', () => {
-        const keyword = mapSearchKeyword.value.trim();
+    // 공백이면 빛 나도록
+    if(!keyword) {
+        mapSearchKeyword.focus(); // 포커스주기
+        return;
+    }
 
-        // 공백이면 빛 나도록
-        if(!keyword) {
-            mapSearchKeyword.focus(); // 포커스주기
-            return;
-        }
-
-        searchMapByKeyword(keyword);
-    });
+    searchMapByKeyword(keyword);
 }
 
 const handleDeleteFocusedItemAll = async (e) => {

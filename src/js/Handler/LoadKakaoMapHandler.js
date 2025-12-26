@@ -72,7 +72,6 @@ function displayMarker(place) {
     });
 
     markers.push(marker);
-    console.log('oooooooooooooooo[kakao]oooooooooooooooo');
 
     window.kakao.maps.event.addListener(marker, 'click', function() {
         infowindow.setContent(`<div style="padding:5px;font-size:12px;">${place.place_name}</div>`);
