@@ -1,5 +1,6 @@
-import {deleteFocusItemOneById, deleteFocusedItemAll, getFocusedTimeInADay} from "../services/FocusTimeService.js";
-import {searchMapByKeyword} from "./LoadKakaoMapHandler.js";
+import * as FocusTimeService from "../services/FocusTimeService.js";
+import {searchMapByKeyword, selectLocationListener} from "./LoadKakaoMapHandler.js";
+import * as FocusLogService from "../services/FocusLogService.js";
 
 let recordListContainer; // 여러번 사용되는 경우에 let으로 일단 선언 후 함수에서 할당
 const loadingMessage = document.getElementById('loadingMessage');
@@ -41,7 +42,7 @@ const initFetchFocused = async () => {
 
     try {
         // 하루의 데이터 가져오기
-        const result = await getFocusedTimeInADay();
+        const result = await FocusTimeService.getFocusedTimeInADay();
 
         recordListContainer.innerHTML = '';
 
@@ -124,7 +125,7 @@ const handleDeleteFocusedItem = async (event) => {
     try {
         console.log(focusId);
 
-        await deleteFocusItemOneById(focusId);
+        await FocusTimeService.deleteFocusItemOneById(focusId);
 
         if (item) {
             item.remove();
@@ -146,7 +147,7 @@ const handleDeleteFocusedItem = async (event) => {
 const handleAddLocation = async (event) => {
     const btn = event.currentTarget;
     const item = btn.closest('.list-group-item');
-    const focusId = btn.dataset.focusedId;
+    const focusedId = btn.dataset.focusedId;
 
     // 위치 모달 불러오기
     const modalEl = document.getElementById('locationModal');
@@ -156,6 +157,19 @@ const handleAddLocation = async (event) => {
     locationModal.show();
 
     // TODO: focus_log에 장소 추가하는 API 연결
+    selectLocationListener(async (place) => {
+        if (!confirm(`'${place.place_name}'을(를) 등록할까요?`)) return;
+
+        try {
+            await FocusLogService.addLocation(place.place_name, focusedId, place.y, place.x, place.id, place.place_url);
+
+            alert('성공적으로 위치 추가🎉');
+            locationModal.hide();
+        } catch (e) {
+            console.error('장소 등록 실패:', e);
+            alert('위치 추가 실패');
+        }
+    })
 }
 
 const handleSearchEvent = (mapSearchKeyword) => {
@@ -180,7 +194,7 @@ const handleDeleteFocusedItemAll = async (e) => {
     }
 
     try {
-        await deleteFocusedItemAll();
+        await FocusTimeService.deleteFocusedItemAll();
 
         recordListContainer.innerHTML = ''; // 초기화
 

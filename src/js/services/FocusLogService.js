@@ -4,13 +4,16 @@ export const getFocusLogList = async () => {
     // TODO: loglist
 }
 
-export const addLocationService = async (spotName, focusTimeId, latitude, longitude, placeId) => {
+export const addLocation = async (spotName, focusTimeId, latitude, longitude, placeId, placeUrl) => {
+    console.log('FocusLogService: addLocation');
+
     const locationRequest = {
         spotName: spotName,
         focusTimeId: focusTimeId,
         latitude: latitude,
         longitude: longitude,
-        placeId: placeId
+        placeId: placeId,
+        placeUrl: placeUrl
     };
 
     return await addLocationApi("/focus-log/add/location", locationRequest);

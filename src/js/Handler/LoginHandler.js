@@ -2,7 +2,7 @@ import {AuthService} from "../services/AuthService.js";
 import {navigateTo} from "../../../router.js";
 import {ExpiredTokenException} from "../../utils/ExpiredTokenException.js";
 import {AuthException} from "../../utils/AuthException.js";
-import {TodoService} from "../services/TodoService.js";
+import * as TodoService from "../services/TodoService.js";
 
 export const loginEvents = async () => {
     const loginForm = document.getElementById('loginForm');
