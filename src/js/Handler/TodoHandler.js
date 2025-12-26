@@ -1,4 +1,4 @@
-import {TodoService} from "../services/TodoService.js";
+import * as TodoService from "../services/TodoService.js";
 
 export function todoEvents() {
     const pendingRemovals = {};

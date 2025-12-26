@@ -18,5 +18,4 @@ export const deleteFocusItemOneById = async (id) => {
 
 export const deleteFocusedItemAll = async () => {
     return await DeleteFocusedItemAllApi(`/focus-time/delete/all`);
-
 }

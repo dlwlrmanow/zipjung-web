@@ -1,12 +1,17 @@
-import {AuthTokenStorage} from "./TokenStorage.js";
+import {addLocationApi} from "../api/AddLocationApi.js";
 
-export class FocusLogService {
-    static async focusLogList() {
-        const accessToken = AuthTokenStorage.getToken();
-        console.log(`[FocusLogService] accessToken: ${accessToken}`);
+export const getFocusLogList = async () => {
+    // TODO: loglist
+}
 
-        if (accessToken) {
+export const addLocationService = async (spotName, focusTimeId, latitude, longitude, placeId) => {
+    const locationRequest = {
+        spotName: spotName,
+        focusTimeId: focusTimeId,
+        latitude: latitude,
+        longitude: longitude,
+        placeId: placeId
+    };
 
-        }
-    }
+    return await addLocationApi("/focus-log/add/location", locationRequest);
 }

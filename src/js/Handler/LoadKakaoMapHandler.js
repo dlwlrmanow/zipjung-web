@@ -3,6 +3,10 @@ let markers = [];
 let map = null;
 let infowindow = null;
 
+// 무한 스크롤
+let currentPagination = null;
+let isFetching = false;
+
 export const loadKakaoMap = () => {
     if (window.kakao && window.kakao.maps) {
         console.log('[initMap] kakao 객체');
