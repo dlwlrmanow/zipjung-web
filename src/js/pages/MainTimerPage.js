@@ -90,11 +90,11 @@ export const renderMainTimerContent = () => {
                         <button class="btn btn-primary" type="button" id="searchBtn">검색</button>
                     </div>
                     <div class="map_wrap">
+                        <div id="map" style="width:100%;height:60vh;position:relative;overflow:hidden;"></div>
                         <div id="menu_wrap" class="bg_white">
                             <ul id="placesList"></ul>
                             <div id="pagination"></div>
                         </div>
-                        <div id="map" style="width:100%;height:60vh;position:relative;overflow:hidden;"></div>
                     </div>
                 </div>
             </div>
