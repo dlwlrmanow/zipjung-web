@@ -44,11 +44,20 @@ const initFetchFocused = async () => {
         // 하루의 데이터 가져오기
         const result = await FocusTimeService.getFocusedTimeInADay();
 
+        console.log("result count: ", result);
+
         recordListContainer.innerHTML = '';
 
-        if(result && result.count > 0) {
-            result.data.forEach(timeList => {
-                const focusedItem = createFocusTimeItem(timeList.id, timeList.startTime, timeList.endTime, timeList.focusedTimeStr);
+        if(result && result.length > 0) {
+            result.forEach(timeList => {
+                const focusedItem = createFocusTimeItem(
+                    timeList.id,
+                    timeList.startTime,
+                    timeList.endTime,
+                    timeList.focusedTimeStr,
+                    timeList.focusLogId,
+                    timeList.locationIsDeleted // TODO: null 인 경우에만 + 보여주기
+                );
                 recordListContainer.prepend(focusedItem);
             })
 
@@ -85,18 +94,26 @@ const initFetchFocused = async () => {
     }
 }
 
-const createFocusTimeItem = (id, startTime, endTime, focusedTimeStr) => {
-    // 새로 만들어주는 건 -> createElement
+const createFocusTimeItem = (id, startTime, endTime, focusedTimeStr, focusLogId, locationIsDeleted) => {
     const listItem = document.createElement('li');
 
     listItem.className = 'list-group-item d-flex justify-content-between align-items-center py-3'
     listItem.id = `focused-item-${id}`;
 
+    // + 버튼이 있고없고 간격 똑같이
+    const isVisible = (locationIsDeleted === null);
+    const visibilityClass = isVisible ? '' : 'invisible';
+    const disabledAttr = isVisible ? '' : 'disabled'; // 보이지 않을 땐 클릭도 안 되게
+
+    const locationAddBtn = `
+        <button class="btn btn-sm text-primary p-0 me-3 add-sub-btn ${visibilityClass}" 
+                data-focused-id="${id}" ${disabledAttr}>
+            <i class="bi bi-plus-lg" style="font-size: 1.2rem;"></i>
+        </button>`;
+
     listItem.innerHTML = `
         <div class="d-flex align-items-center">
-            <button class="btn btn-sm text-primary p-0 me-3 add-sub-btn" data-focused-id="${id}">
-                <i class="bi bi-plus-lg" style="font-size: 1.2rem; "></i>
-            </button>
+            ${locationAddBtn}
             <span class="focused-time">${focusedTimeStr}</span>
         </div>
         <div class="d-flex align-items-center">
@@ -111,8 +128,10 @@ const createFocusTimeItem = (id, startTime, endTime, focusedTimeStr) => {
 
     // 아이템 삭제시
     listItem.querySelector('.focused-delete-btn').addEventListener('click', handleDeleteFocusedItem);
+
     // 카카오맵으로부터 위치 추가시
-    listItem.querySelector('.add-sub-btn').addEventListener('click', handleAddLocation);
+    const addSubBtn = listItem.querySelector('.add-sub-btn');
+    if(addSubBtn) addSubBtn.addEventListener('click', handleAddLocation);
 
     return listItem;
 }
@@ -123,7 +142,7 @@ const handleDeleteFocusedItem = async (event) => {
     const item = document.getElementById(`focused-item-${focusId}`);
 
     try {
-        console.log(focusId);
+        console.log("[handleDeleteFocusedItem] deleted focus item id: ", focusId);
 
         await FocusTimeService.deleteFocusItemOneById(focusId);
 
@@ -165,6 +184,8 @@ const handleAddLocation = async (event) => {
 
             alert('성공적으로 위치 추가🎉');
             locationModal.hide();
+
+            initFetchFocused(); // 리스트 다시 그리기
         } catch (e) {
             console.error('장소 등록 실패:', e);
             alert('위치 추가 실패');

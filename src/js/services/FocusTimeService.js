@@ -2,6 +2,7 @@ import {FetchFocusTimeInADayApi} from "../api/FetchFocusTimeInADayApi.js";
 import {DeleteFocusedItemAllApi} from "../api/DeleteFocusedItemAllApi.js";
 import {DeleteFocusTimeByIdApi} from "../api/DeleteFocusItemApi.js";
 
+// 메인 타이머 페이지 - 오늘 집중 시간
 export const getFocusedTimeInADay = async () => {
     return await FetchFocusTimeInADayApi("/focus-time/today/list/fetch");
 }
