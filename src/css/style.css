@@ -67,3 +67,256 @@
 #mainTimerBtn {
     cursor: pointer;
 }
+
+    /* -------------------- */
+    /* main-focus-timer css */
+    /* -------------------- */
+
+:root {
+    --theme-blue: #D4ECF7; /* 이미지의 연한 하늘색 배경 */
+    --icon-color: #2D3436; /* 진한 회색/검정 */
+    --blueberry-color: #4A69BD; /* 블루베리 아이콘 색상 (비슷하게) */
+}
+
+body {
+    background-color: #f8f9fa;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 왼쪽 카드 (모바일 앱 느낌) */
+.app-card {
+    background-color: white;
+    border-radius: 2rem; /* 둥근 모서리 강화 */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    overflow: hidden; /* 내부 자식 요소가 둥근 모서리 넘치지 않게 */
+    position: relative;
+}
+
+/* 상단 헤더 (집중 집중!) */
+.app-header {
+    background-color: var(--theme-blue);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-title {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.blueberry-icon {
+    color: var(--blueberry-color);
+    font-size: 1.4rem;
+}
+
+/* 메인 타이머 숫자 */
+.timer-display {
+    font-size: 4.5rem; /* 사이즈 키움 */
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: black;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    letter-spacing: -2px;
+}
+
+/* 컨트롤 버튼 (재생, 리셋) */
+.control-btn {
+    background: none;
+    border: none;
+    color: black;
+    font-size: 4rem; /* 아이콘 매우 크게 */
+    padding: 0 1rem;
+    transition: transform 0.2s;
+    line-height: 1;
+}
+
+.control-btn:hover {
+    transform: scale(1.1);
+    color: #333;
+}
+
+.control-btn:active {
+    transform: scale(0.95);
+}
+
+/* 오늘의 집중 저장 버튼 */
+.btn-save-custom {
+    background-color: var(--theme-blue);
+    color: black;
+    border: none;
+    border-radius: 1rem;
+    padding: 1rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    width: 80%;
+    margin-top: 2rem;
+    transition: filter 0.2s;
+}
+
+.btn-save-custom:hover {
+    filter: brightness(0.95); /* 살짝 어둡게 */
+}
+
+/* 하단 총 집중시간 카드 */
+.total-time-card {
+    background-color: var(--theme-blue);
+    border-radius: 2rem 2rem 0 0; /* 위쪽만 둥글게 */
+    width: 100%;
+    padding: 2.5rem 1rem;
+    text-align: center;
+    margin-top: auto; /* 카드 하단에 붙이기 */
+}
+
+.total-time-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.total-time-display {
+    font-size: 3rem;
+    font-weight: 600;
+    color: black;
+    font-variant-numeric: tabular-nums;
+}
+
+/* 오른쪽 리스트 스타일 (왼쪽과 조화롭게) */
+.list-card {
+    border: none;
+    border-radius: 1.5rem;
+    background-color: white;
+    height: 100%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.record-item {
+    border-left: 4px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.record-item:hover {
+    background-color: #f8f9fa;
+    border-left-color: var(--theme-blue);
+}
+
+.scroll-area {
+    max-height: 600px;
+    overflow-y: auto;
+}
+/* 스크롤바 숨기기 혹은 예쁘게 */
+.scroll-area::-webkit-scrollbar {
+    width: 6px;
+}
+.scroll-area::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+    border-radius: 3px;
+}
+
+/* 입력창 숨김 처리용 */
+.hidden {
+    display: none !important;
+}
+
+.focused-time{
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: #004494;
+}
+
+    /* --------------------- */
+    /* toaster container css */
+    /* --------------------- */
+.bg-main-light-blue { background-color: #e3f2fd; }
+.text-main-dark-blue { color: #0d47a1; }
+
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1055;
+}
+
+#locationModal .modal-dialog {
+    max-width: 150vh;
+}
+
+    /* --------------------- */
+    /*   map container css   */
+    /* --------------------- */
+
+.map_wrap {
+    position: relative;
+    width: 100%;
+    height: 500px;
+}
+
+/* 지도 위에 뜰 목록 박스 */
+#menu_wrap {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    bottom: 3px;
+    width: 250px;
+    margin: 5px 0 15px 5px;
+    padding: 10px;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.85);
+    z-index: 10;
+    font-size: 12px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* 리스트 아이템 스타일 */
+#placesList {
+    padding: 0;
+    margin: 0;
+}
+
+#placesList .item {
+    list-style: none;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+#placesList .item:hover {
+    background: rgba(0, 123, 255, 0.1); /* 호버 시 파란색 투명 효과 */
+}
+
+#pagination {
+    display: flex;             /* 1. 가로로 나열! */
+    justify-content: center;   /* 2. 가운데 정렬 */
+    gap: 8px;                  /* 3. 숫자 사이 간격 */
+    margin: 10px 0;
+    list-style: none;          /* 혹시 모를 리스트 점 제거 */
+}
+
+#pagination a {
+    text-decoration: none;
+    color: #333;
+    padding: 3px 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 12px;
+}
+
+#pagination a.on {
+    background-color: #007bff; /* 현재 페이지 색상 */
+    color: #fff;
+    border-color: #007bff;
+    font-weight: bold;
+}
+
+#pagination a:hover:not(.on) {
+    background-color: #f8f9fa;
+}

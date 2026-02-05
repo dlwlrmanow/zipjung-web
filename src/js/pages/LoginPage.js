@@ -1,4 +1,4 @@
-import {loginEvents} from "../module/LoginHandler.js";
+import {loginEvents} from "../Handler/LoginHandler.js";
 
 export const renderLoginContent = () => {
     return `

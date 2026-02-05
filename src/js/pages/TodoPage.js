@@ -1,5 +1,5 @@
 import {Layout} from "../../components/Layout.js";
-import {todoEvents} from "../module/TodoHandler.js";
+import {todoEvents} from "../Handler/TodoHandler.js";
 
 export const renderTodoContent = () => {
     return `
@@ -28,7 +28,7 @@ export const renderTodoContent = () => {
                   <ul class="list-group list-group-flush" id="todoListContainer">
                     <li class="list-group-item text-center text-muted py-5" id="loadingMessage">
                       <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                      할 일 목록을 불러오는 중...
+                      할 일 목록을 불러오는 중 ...
                     </li>
                     <!-- To-Do items will be dynamically inserted here -->
                   </ul>

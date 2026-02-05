@@ -1,5 +1,5 @@
 import zipjungIconUrl from '../../assets/images/zipjung-icon.png'
-import {joinEvents} from "../module/JoinHandler.js";
+import {joinEvents} from "../Handler/JoinHandler.js";
 
 export const renderJoinContent= () => {
     return `

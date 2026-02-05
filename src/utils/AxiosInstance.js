@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {AuthTokenStorage} from "../js/services/TokenStorage.js";
-import {ReissueTokenHandler} from "../js/module/ReissueTokenHandler.js";
+import {ReissueTokenHandler} from "../js/Handler/ReissueTokenHandler.js";
 
 // 제외할 매핑
 const publicPaths = ['/auth/login/web', '/user/join'];
@@ -45,7 +45,7 @@ axiosInstance.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
 
-        if(error.response.status === 401 && originalRequest && !originalRequest._retry) {
+        if(error.response?.status === 401 && originalRequest && !originalRequest._retry) {
             console.log('[axiosInstance.interceptors.response.use] AT 재발급 로직 start');
 
             return await ReissueTokenHandler(error, originalRequest, axiosInstance);

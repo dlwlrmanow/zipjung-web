@@ -1,4 +1,4 @@
-import {TodoService} from "../services/TodoService.js";
+import * as TodoService from "../services/TodoService.js";
 
 export function todoEvents() {
     const pendingRemovals = {};
@@ -30,7 +30,7 @@ export function todoEvents() {
             </div>
         `;
 
-        listItem.querySelector('.todo-delete-btn').addEventListener('click', deleteTodoItem);
+        listItem.querySelector('.todo-delete-btn').addEventListener('click', handleDeleteTodoItem);
         listItem.querySelector('.todo-check').addEventListener('change', toggleTodoComplete);
 
         return listItem;
@@ -51,6 +51,7 @@ export function todoEvents() {
             // 데이터가 있는지 확인
             if(result && result.count > 0) {
                 result.data.forEach(todos => {
+                    // TODO: 날짜 포맷 백엔드에서 하도록 수정
                     // 날짜 포맷
                     const dateFromDB = new Date(todos.createdAt); // 월/일 형태로 출력
                     const dateFormatted = `${dateFromDB.getMonth() + 1}. ${dateFromDB.getDate()}`
@@ -63,7 +64,7 @@ export function todoEvents() {
                 // 데이터가 있으니까 empty message 숨기기
                 if(emptyMessage) emptyMessage.classList.add('d-none');
                 // loading도 끝났으니 숨기기
-                loadingMessage.classList.add('d-none');
+                if(loadingMessage) loadingMessage.classList.add('d-none');
 
                 return;
             }
@@ -73,6 +74,7 @@ export function todoEvents() {
                 emptyMessage.classList.remove('d-none');
                 emptyMessage.textContent = '아직 할 일을 추가하지 않았어요!🥲';
             }
+            if(loadingMessage) loadingMessage.classList.add('d-none');
         } catch (e) {
             console.error('[TodoHandler] fetch todos list 실패: ', e);
 
@@ -190,12 +192,10 @@ export function todoEvents() {
 
             // UI 복구
             itemText.classList.remove('text-decoration-line-through', 'text-muted');
-
-            // TODO: 취소할 API 필요할까?
         }
     }
 
-    const deleteTodoItem = async (event) => {
+    const handleDeleteTodoItem = async (event) => {
         const btn = event.currentTarget;
         const todoId = btn.dataset.todoId;
         const item = document.getElementById(`todo-item-${todoId}`);
